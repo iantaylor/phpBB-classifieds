@@ -1,0 +1,201 @@
+<!-- INCLUDE overall_header.html -->
+<script type="text/javascript" src="{ROOT_PATH}buysell/ajaxupload.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+
+function AddItem(ItemId)
+{
+document.postform.message.value = 
+document.postform.message.value + '<' + ItemId;
+}
+
+</script>
+
+<!-- IF MODE_EDIT and POSTER != CURRENT_ID and not U_ACP or U_MCP -->
+<div class="panel bg1">
+	<div class="inner"><span class="corners-top"><span></span></span>
+{L_EDIT_OWN}
+	<span class="corners-bottom"><span></span></span></div>
+</div>	
+<!-- ELSE -->
+
+
+
+<div style="width:65%; float:left" class="panel bg1">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	
+		
+		<h3>{L_NEW_AD}</h3>
+		<ul class="topiclist">
+			<!-- IF ERROR --><dl><dd class="error">{ERROR}</dd></dl><!-- ENDIF -->
+			<form action="{U_ACTION}" method="post" id="postform" enctype="multipart/form-data">
+			<dl>
+				<dt><label>*{L_TITLE}:</label></dt>
+				<dd><input id= "ad_title" name="ad_title"  value="{AD_TITLE}" type="text" maxlength="100" size="40" /></dd>
+				</dl>
+				<li class="header"> *{L_DESCRIPTION}:</li>
+				<li>
+				<!-- INCLUDE posting_buttons.html -->
+
+				<textarea id="message" name="message" rows="15" cols="700" style="width:98%">{AD_DESCRIPTION}</textarea></li>			
+<dl>
+<dt><label for="thumb">{L_THUMB}:</label><br />
+{L_THUMB_EXPLAIN}
+<br /><br /></dt>
+<dd style="padding-left:10px;"><input name="thumb" id="thumb" value="{THUMB}" type="text" /></dd>				
+</dl>	
+<dl>			
+<dt><label for="price">*{L_PRICE}:</label><br />
+{L_PRICE_EXPLAIN}
+<br /><br /></dt>
+<dd  style="padding-left:10px;"><input id= "ad_price" value="{AD_PRICE}" name="ad_price" type="text" /></dd>
+</dl>
+<dl>
+<dl>			
+<dt><label for="price">{L_PAYPAL_EMAIL}:</label><br />
+{L_PAYPAL_EXPLAIN}
+<br /><br /></dt>
+<dd  style="padding-left:10px;"><input id= "paypal" value="{PAYPAL}" name="paypal" type="text" />
+<select name="paypal_currency">
+  <option>{L_CURRENCY}</option>
+  <option value="USD" <!-- IF PAYPAL_CURRENCY == "USD" --> selected="selected" <!-- ENDIF -->>U.S. Dollar</option>
+  <option value="CAD" <!-- IF PAYPAL_CURRENCY == "CAD" --> selected="selected" <!-- ENDIF -->>Canadian Dollar</option>
+  <option value="AUD" <!-- IF PAYPAL_CURRENCY == "AUD" --> selected="selected" <!-- ENDIF -->>Australian Dollar</option>
+  <option value="CHF" <!-- IF PAYPAL_CURRENCY == "CHF" --> selected="selected" <!-- ENDIF -->>Swiss Franc</option>
+  <option value="DKK" <!-- IF PAYPAL_CURRENCY == "DKK" --> selected="selected" <!-- ENDIF -->>Danish Krone</option>
+  <option value="EUR" <!-- IF PAYPAL_CURRENCY == "EUR" --> selected="selected" <!-- ENDIF -->>Euro</option>
+  <option value="GBP" <!-- IF PAYPAL_CURRENCY == "GBP" --> selected="selected" <!-- ENDIF -->>Pound Sterling</option>
+  <option value="HKD" <!-- IF PAYPAL_CURRENCY == "HKD" --> selected="selected" <!-- ENDIF -->>Hong Kong Dollar</option>
+  <option value="HUF" <!-- IF PAYPAL_CURRENCY == "HUF" --> selected="selected" <!-- ENDIF -->>Hungarian Forint</option>
+  <option value="JPY" <!-- IF PAYPAL_CURRENCY == "JPY" --> selected="selected" <!-- ENDIF -->>Japanese Yen</option>
+  <option value="NOK" <!-- IF PAYPAL_CURRENCY == "NOK" --> selected="selected" <!-- ENDIF -->>Norwegian Krone</option>
+  <option value="NZD" <!-- IF PAYPAL_CURRENCY == "NZD" --> selected="selected" <!-- ENDIF -->>New Zealand Dollar</option>
+  <option value="PLN" <!-- IF PAYPAL_CURRENCY == "PLN" --> selected="selected" <!-- ENDIF -->>Polish Zloty</option>
+  <option value="SEK" <!-- IF PAYPAL_CURRENCY == "SEK" --> selected="selected" <!-- ENDIF -->>Swedish Krona</option>
+  <option value="SGD" <!-- IF PAYPAL_CURRENCY == "SGD" --> selected="selected" <!-- ENDIF -->>Singapore Dollar</option>
+</select>
+</label>
+</dd>
+</dl>
+<dl>			
+<dt><label for="phone">{L_PHONE}:</label><br />
+{L_PHONE_EXPLAIN}<br /><br /></dt>
+<dd  style="padding-left:10px;"><input id= "phone" value="{PHONE}" name="phone" type="text" /></dd>
+</dl>
+<dl>
+<dt><label for="cat">{L_CAT_NAME}:</label><br />
+{L_CATEGORY_EXPLAIN}<br /><br /></dt>
+<dd  style="padding-left:10px;">
+<select name="cat" id="cat">
+<!-- BEGIN cat -->
+<option value="{cat.ID}" <!-- IF cat.ID == CAT_ID --> selected="selected"<!-- ELSEIF cat.PARENT --> style="text-align:center;background-color:#ECF3F7" disabled="disabled" <!-- ENDIF -->>{cat.NAME}</option>
+<!-- END cat -->
+</select>
+</dd>
+</dl>
+<!-- IF MODE == 'edit' -->
+<dl>
+<dt><label for="ad_status">{L_STATUS}:</label></dt>
+<dd style="padding-left:10px;">
+<select name="ad_status" id="ad_status">
+<option <!-- IF AD_STATUS == 0 -->selected="selected"<!-- ENDIF --> value="0">{L_NOT_SOLD}</option>
+<option <!-- IF AD_STATUS == 1 -->selected="selected"<!-- ENDIF --> value="1">{L_SOLD}</option>
+<option <!-- IF AD_STATUS == 2 -->selected="selected"<!-- ENDIF --> value="2">{L_CLOSED}</option>
+</select>
+</dd>
+</dl>
+<!-- ENDIF -->
+<!-- IF COMMENTS_ENABLED -->
+<dl>
+<dt><label for="comment0">{L_ALLOW_COMMENTS}</label>
+<br />{L_ALLOW_COMMENTS_EXPLAIN}<br /><br /></dt>
+<dd style="padding-left:10px;">
+<label for="comment0"><input type="radio" name="allow_comments" id="comment0"  value="1" <!-- IF ALLOW_COMMENT -->checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+<label for="comment1"><input type="radio" name="allow_comments" id="comment1" value="0" <!-- IF not ALLOW_COMMENT -->checked="checked"<!-- ENDIF -->  /> {L_NO}</label>
+</dd>
+</dl>
+<dl>
+<dt><label for="comment01">{L_EMAIL_COMMENTS}</label><br />
+{L_EMAIL_COMMENTS_EXPLAIN}<br /><br /></dt>
+<dd style="padding-left:10px;"><label for="comment01"><input type="radio" name="notify_comments" id="comment01"  value="1" <!-- IF NOTIFY_COMMENT -->checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+<label for="comment10"><input type="radio" name="notify_comments" id="comment10" value="0" <!-- IF not NOTIFY_COMMENT -->checked="checked"<!-- ENDIF -->  /> {L_NO}</label></dd>
+</dl>
+<!-- ENDIF -->
+			
+<li style="text-align:center"><input type="submit" id="submit" name="submit" class="button1" value="{L_SUBMIT}"></li>
+</form>
+
+
+
+
+</ul>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- IF ALLOW_UPLOAD -->
+<div class="panel bg1" style="width:30%; float:right">
+	<div class="inner"><span class="corners-top"><span></span></span>
+<h3>{L_IMAGE_UPLOAD}</h3>
+								<fieldset>
+
+						<form action="{ROOT_PATH}buysell/ajaxupload.php" method="post" name="sleeker" id="sleeker" enctype="multipart/form-data">
+							<input type="hidden" name="maxSize" value="9999999999" />
+							<input type="hidden" name="max_width" value="{UPLOAD_SIZE}" />
+							<input type="hidden" name="fullPath" value="{ROOT_PATH}buysell/images/" />
+							<input type="hidden" name="relPath" value="{ROOT_PATH}buysell/images/" />
+							<input type="hidden" name="color_red" value="255" />
+							<input type="hidden" name="color_green" value="255" />
+							<input type="hidden" name="color_blue" value="255" />
+							<input type="hidden" name="max_height" value="{UPLOAD_SIZE}" />
+							<input type="hidden" name="filename" value="filename" />
+							<p><input type="file" name="filename" onchange="ajaxUpload(this.form,'{ROOT_PATH}buysell/ajaxupload.php?filename=name&amp;maxSize=9999999999&amp;max_width=200&amp;fullPath={ROOT_PATH}buysell/images/&amp;relPath={ROOT_PATH}buysell/images/&amp;color_red=255&amp;color_green=255&amp;color_blue=255&amp;max_height=300','upload_area','{L_UPLOADING}&lt;br /&gt;&lt;img src=\'{ROOT_PATH}buysell/images/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;','&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt;'); return false;" /></p>
+						</form>
+					</fieldset>
+								
+					<br /><small style="font-weight: bold; font-style:italic;">{L_SUPPORTED}</small>
+					
+						<div id="upload_area" style="text-align:center">
+											</div>
+<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<div class="panel bg1" style="width:30%; float:right">
+	<div class="inner"><span class="corners-top"><span></span></span>
+<fieldset>
+<h3>{L_THUMBNAIL}</h3>
+						<form action="{ROOT_PATH}buysell/ajaxupload.php" method="post" name="sleeker" id="sleeker" enctype="multipart/form-data">
+							<input type="hidden" name="maxSize" value="9999999999" />
+							<input type="hidden" name="max_width" value="100" />
+							<input type="hidden" name="fullPath" value="{ROOT_PATH}buysell/images/" />
+							<input type="hidden" name="relPath" value="{ROOT_PATH}buysell/images/" />
+							<input type="hidden" name="color_red" value="255" />
+							<input type="hidden" name="color_green" value="255" />
+							<input type="hidden" name="color_blue" value="255" />
+							<input type="hidden" name="max_height" value="300" />
+							<input type="hidden" name="filename" value="filename" />
+							<p><input type="file" name="filename" onchange="ajaxUpload(this.form,'{ROOT_PATH}buysell/ajaxupload.php?filename=name&amp;maxSize=9999999999&amp;max_width=200&amp;fullPath={ROOT_PATH}buysell/images/&amp;relPath={ROOT_PATH}buysell/images/&amp;color_red=255&amp;color_green=255&amp;color_blue=255&amp;max_height=300','upload_area2','{L_UPLOADING}&lt;br /&gt;&lt;img src=\'{ROOT_PATH}buysell/images/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;','&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt;'); return false;" /></p>
+						</form>
+					</fieldset>
+
+						<div id="upload_area2" style="text-align:center"></div>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->				
+<!-- IF ALLOW_TINYPIC -->
+<div class="panel bg1" style="text-align:center; width:30%; float:right">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<p>
+	{L_UPLOAD_PIC}</p>
+<script type="text/javascript">
+tinypic_layout = 'narrow';
+tinypic_type = 'images';
+tinypic_links = 'forum';
+tinypic_language = 'en';
+tinypic_search = 'false';
+tinypic_autoload = false;
+</script>
+<script src="http://plugin.tinypic.com/j/plugin.js" type="text/javascript"></script>
+<input type="button" value="TinyPic Plugin" onclick="javascript:showTinypicPlugin();"/>
+<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+<!-- ENDIF -->	
+<!-- INCLUDE overall_footer.html -->

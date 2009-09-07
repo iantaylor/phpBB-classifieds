@@ -1,0 +1,12 @@
+Subject: "Classifieds ad has expired on {SITE_NAME}"
+
+{USERNAME},
+
+You posted an Ad on {SITE_NAME} on {AD_DATE} and has expired on {EXPIRE_DATE}.
+
+Since your ad is still marked Active we must assume it has not sold yet! If you wish you wish to have your ad revived please visit the classifieds section and click "expired ads" you will see an extend button.
+
+Ad Info :
+
+Title : {TITLE}
+Price : {PRICE}

@@ -1,0 +1,128 @@
+<!-- INCLUDE overall_header.html -->
+
+<p>&nbsp;</p>
+<!-- IF ENABLE_CLASSIFIEDS -->
+<!-- IF SHOW_RULES -->
+<div class="rules">
+		<div class="inner"><span class="corners-top"><span></span></span>
+<h3>{L_RULES}</h3>
+	<p>{L_RULES_DESC}</p>
+<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<!-- ENDIF -->
+
+<div align="right"><a href="{NEW_AD}" title="Post ad"><img src="{T_IMAGESET_PATH}/post_ad.gif" /></a></div>
+
+<div class="forumbg" style="width:80%; float:right;">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<ul class="topiclist">
+			<li class="header">
+				<dl>
+					<dd style="width:100px"><strong>{L_IMAGE}</strong></dd>
+					<dt style="width:39%">{L_TITLE}</dt>
+					<dd class="views">{L_PRICE}</dd>
+					<dd class="views">{L_VIEWS}</dd>
+					<dd class="lastpost"><span>{L_DATE}</a></span></dd>
+				</dl>
+			</li>
+		</ul>
+
+		<ul class="topiclist forums">
+<!-- BEGIN ad -->
+			<li <!-- IF ad.AD_STATUS == 1 --> style="background-color:{SOLD_COLOR}"<!-- ELSEIF ad.AD_STATUS == 2 --> style="background-color:{CLOSED_COLOR}" <!-- ELSE -->class="row"<!-- ENDIF --> >
+				<dl>
+<!-- IF ad.THUMB -->
+					<dd style="width:100px"><img src="{ad.THUMB}" alt="{ad.TITLE}" style="max-width: 100px" /></dd>
+<!-- ENDIF -->
+
+<!-- IF not ad.THUMB -->
+					<dd style="width:100px"><img src="{ROOT_PATH}/buysell/images/noimage.gif" alt="{ad.TITLE}" style="max-width: 100px" /></dd>
+<!-- ENDIF -->
+
+					<dt style="width:39%;"><a href="{ad.AD_LINK}"><b>{ad.AD_TITLE}</b></a> {ad.CATEGORY}<br />
+<font style="font-style:italic">{ad.AD_DESCRIPTION}...</font>
+											</dt> 
+					<dd class="views"><!-- IF ad.AD_STATUS == 1 --><strong>{L_SOLD}</strong><!-- ELSEIF ad.AD_STATUS == 2 --><strong>{L_CLOSED}</strong><!-- ELSE -->{ad.AD_PRICE}<!-- ENDIF --></dd>
+					<dd class="views">{ad.AD_VIEWS}</dd>
+
+					<dd class="lastpost" style="padding-left:5px;">
+				{L_BY} <b><a <!-- IF ad.AD_POSTER_COLOR --> style="color:#{ad.AD_POSTER_COLOR}" <!-- ELSE --> style="color:#000" <!-- ENDIF --> href="{ad.USER_LINK}">{ad.AD_POSTER}</a></b><a href="{ad.AD_LINK}">{LAST_POST_IMG}</a><br />
+				<font style="font-style:italic">{ad.AD_DATE}</font><br />
+				<!-- IF ad.LOCATION -->{L_LOCATION}: <strong>{ad.LOCATION}</strong><!-- ENDIF --><br />
+				<!-- IF ad.ALLOW_COMMENTS && ENABLE_COMMENT -->{L_COMMENTS} : <strong>{ad.TOTAL_COMMENTS}</strong><!-- ENDIF -->
+				<ul class="profile-icons">
+				<!-- IF MODE == 'view_expired' --><li><a href="{ad.U_EXTEND}"><img src="{ROOT_PATH}/buysell/images/extend_ad.gif" alt="extend" /></a></li> <!-- ENDIF -->
+
+				<!-- IF  MODE == 'view_expired' && CAN_DELETE --><li  class="delete-icon"><a href="{ad.U_DELETE}" title="{L_DELETE}"><span>{L_DELETE}</span></a></li><!-- ENDIF -->
+				</ul>
+			</dd>
+
+		</dl>
+	</li>
+		
+<!-- END ad -->
+
+</ul>
+	<ul class="linklist">
+    <li class="rightside pagination">{TOTAL_ADS} &bull; <!-- IF PAGINATION --><span>{PAGINATION}</span><!-- ELSE -->{PAGE_NUMBER}<!-- ENDIF --></li>
+</ul>
+
+
+		<span class="corners-bottom"><span></span></span></div>
+		
+</div>
+
+<div class="panel bg1" style="width:15%; float:left">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h3>{L_CATEGORIES}</h3>
+		<ul class="topiclist">
+			<li class="header">
+				» <strong><a href="{ACTIVE_LINK}">{L_VIEW_ACTIVE}</a></strong><br />
+				» <strong><a href="{ALL_LINK}">{L_VIEW_ALL}</a></strong><br />
+			</li>
+		</ul>
+				
+		<ul class="topiclist">
+			<li class="header">
+				{CATEGORIES}
+				</li>
+		</ul>
+		<br />				
+<!-- IF S_USER_LOGGED_IN -->
+
+		<h3>{L_USER_CONTROLS}</h3>
+		<ul class="topiclist">
+			<li class="header">
+				» <strong><a href="{OWN_LINK}">{L_VIEW_OWN}</a></strong><br />
+				» <strong><a href="{U_VIEW_EXPIRED}">{L_VIEW_EXPIRED}</a></strong>
+				<br />
+				{USER_AD_STATS}				
+			</li>
+		</ul>
+	<br />
+				
+		<h3>{L_SEARCH}</h3>
+
+<!-- ENDIF -->
+
+		<form method="post" id="search" action="{U_SEARCH_ADS}">
+		<input name="question" size="15" id="question" type="text">
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_GO}">			
+		</form>
+		<p>{L_WILD_CARD}</p>
+		
+	<span class="corners-bottom"><span></span></span></div>
+</div>	
+
+<!-- ELSE -->
+
+<div class="panel bg1" style="width:100%;">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<h3>{L_DISABLED}</h3>
+		<p align="center">{DISABLE_MESSAGE}</p>
+	<span class="corners-bottom"><span></span></span></div>
+</div>	
+
+<!-- ENDIF -->
+<p>&nbsp;</p>
+<!-- INCLUDE overall_footer.html -->

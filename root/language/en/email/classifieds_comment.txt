@@ -1,0 +1,11 @@
+Subject: "Your Advertisment has a new comment on {SITE_NAME}"
+
+Hello {USERNAME} ,
+
+The Advertisement you posted on {SITE_NAME} has received a new comment
+
+
+View the comment here : {AD_LINK}
+
+
+{SIGNATURE}

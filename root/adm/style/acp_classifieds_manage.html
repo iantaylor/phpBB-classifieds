@@ -1,0 +1,79 @@
+<!-- INCLUDE overall_header.html -->
+<script type="text/javascript">
+function display(action, id)
+{
+	if (action == 'show')
+	{
+		document.getElementById("actions"+id).style.display = "block";
+		document.getElementById("link"+id).href= "javascript:display('hide', "+id+")";
+	}
+
+	if (action == 'hide')
+	{
+		document.getElementById("actions"+id).style.display = "none";
+		document.getElementById("link"+id).href= "javascript:display('show', "+id+")";
+	}
+}
+</script>
+
+<h1>{L_ACTIVE_ADS}</h1>
+<p>{L_ACTIVE_ADS_EXPLAIN}</p>
+<table cellpadding="1" cellspacing="1">
+	<th width="40%">{L_TITLE}</th>
+	<th width="20%">{L_USERNAME}</th>
+	<th width="30%">{L_DATE}</th>
+	<th width="10%">{L_OPTIONS}</th>
+	
+<!-- BEGIN ad_active -->
+<tr>
+	<td <!-- IF ad_active.AD_STATUS == 1 or ad_active.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="40%">{ad_active.AD_TITLE}</td>
+	<td <!-- IF ad_active.AD_STATUS == 1 or ad_active.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="20%"><!-- IF ad_active.AD_POSTER_COLOR --><span style="color:#{ad_active.AD_POSTER_COLOR}"> <!-- ELSE --> <span> <!-- ENDIF -->{ad_active.AD_POSTER}</span></td>
+	<td <!-- IF ad_active.AD_STATUS == 1 or ad_active.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="30%"><b>Post date:</b> {ad_active.AD_DATE}<br />
+		<b>Expire date:</b> {ad_active.AD_EXPIRE}
+	</td>
+	<td id="category" style="text-align:center" bgcolor="#DCEBFE" width="10%" ><a href="{ad_active.DELETE_LINK}">{ICON_DELETE}</a></td>
+</tr>
+<!-- END ad_active -->
+</table>
+
+<ul class="linklist">
+    <li class="rightside pagination">{TOTAL_ADS_ACTIVE}<!-- IF PAGINATION_ACTIVE --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER_ACTIVE}</a> <span>{PAGINATION_ACTIVE}</span><!-- ELSE -->{PAGE_NUMBER_ACTIVE}<!-- ENDIF --></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>{L_EXPIRED_ADS}</h1>
+<p>{L_EXPIRED_ADS_EXPLAIN}</p>
+<table cellpadding="1" cellspacing="1">
+<th width="40%">{L_TITLE}</th>
+<th width="20%">{L_USERNAME}</th>
+<th width="30%">{L_DATE}</th>
+<th width="10%">{L_OPTIONS}</th>
+<!-- BEGIN ad_expired -->
+<tr>
+<td <!-- IF ad_expired.AD_STATUS == 1 or ad_expired.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="40%">{ad_expired.AD_TITLE}</td>
+<td <!-- IF ad_expired.AD_STATUS == 1 or ad_expired.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="20%"><!-- IF ad_expired.AD_POSTER_COLOR --><span style="color:#{ad_expired.AD_POSTER_COLOR}"> <!-- ELSE --> <span> <!-- ENDIF -->{ad_expired.AD_POSTER}</span></td>
+<td <!-- IF ad_expired.AD_STATUS == 1 or ad_expired.AD_STATUS == 2 -->bgcolor="yellow"<!-- ELSE -->bgcolor="#F9F9F9"<!-- ENDIF --> width="30%"><b>Post date:</b> {ad_expired.AD_DATE}<br />
+<b>Expire date:</b> {ad_expired.AD_EXPIRE}<br />
+<br />
+<div id="actions{ad_expired.AD_ID}" style="display:none; text-align:center">
+<form method="post" action="{ad_expired.EDIT_EXPIRE}">
+<input type="text" size="3" id="add_days" name="add_days" >
+<input type="submit" id="submit" value="{L_SUBMIT}" class="button1" name="submit">
+</form>
+<br />
+<p>{L_SET_DAYS}</p>
+</div>
+
+</td>
+<td id="category" style="text-align:center" bgcolor="#DCEBFE" width="10%" >
+<a id="link{ad_expired.AD_ID}" href="javascript:display('show', {ad_expired.AD_ID})"><img id="show_ad_{ad_expired.AD_ID}" src="images/icon_edit.gif" alt="edit" /></a>
+
+<a href="{ad_expired.DELETE_LINK}">{ICON_DELETE}</a></td>
+
+<!-- END ad_expired -->
+</table>
+<ul class="linklist">
+    <li class="rightside pagination">{TOTAL_ADS_EXPIRE}  <!-- IF PAGINATION_EXPIRE --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER_EXPIRE}</a> &bull; <span>{PAGINATION_EXPIRE}</span><!-- ELSE -->{PAGE_NUMBER_EXPIRE}<!-- ENDIF --></li>
+</ul>
+
+<!-- INCLUDE overall_footer.html -->

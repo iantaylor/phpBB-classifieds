@@ -1,0 +1,368 @@
+<!-- INCLUDE overall_header.html -->
+
+<script type="text/javascript"> 
+	<!-- 
+	function showMe (it, box) { 
+	  var vis = (box.checked) ? "none" : "block"; 
+	  document.getElementById(it).style.display = vis;
+	} 
+	//--> 
+</script>
+<script type="text/javascript">
+function display(action, id)
+{
+	if (action == 'show')
+	{
+		document.getElementById("actions"+id).style.display = "block";
+		document.getElementById("link"+id).href= "javascript:display('hide', "+id+")";
+	}
+
+	if (action == 'hide')
+	{
+		document.getElementById("actions"+id).style.display = "none";
+		document.getElementById("link"+id).href= "javascript:display('show', "+id+")";
+	}
+}
+</script>
+
+<h1>{L_ACP_CLASSIFIEDS}</h1>
+
+<!-- BEGIN mods -->
+
+	<fieldset>
+		<legend>{L_VERSION_CHECK}</legend>
+		<p style="font-weight: bold; color: <!-- IF mods.S_UP_TO_DATE -->#228822<!-- ELSE -->#BC2A4D<!-- ENDIF -->;">{mods.UP_TO_DATE}</p>
+		<dl>
+			<dt><label>{L_CURRENT_VERSION}</label></dt>
+			<dd><strong>{mods.CURRENT_VERSION}</strong></dd>
+		</dl>
+		<dl>
+			<dt><label>{L_LATEST_VERSION}</label></dt>
+			<dd><strong>{mods.LATEST_VERSION}</strong></dd>
+		</dl>
+		<!-- IF not mods.S_UP_TO_DATE -->
+			<dl>
+				<dt><label>{L_DOWNLOAD_LATEST}</label></dt>
+				<dd><strong><a href="{mods.DOWNLOAD}">{L_DOWNLOAD} {mods.TITLE} {mods.LATEST_VERSION}</a></strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{L_ANNOUNCEMENT_TOPIC}</label></dt>
+				<dd><strong><a href="{mods.ANNOUNCEMENT}">{L_RELEASE_ANNOUNCEMENT}</a></strong></dd>
+			</dl>
+		<!-- ENDIF -->
+	</fieldset>
+<!-- END mods -->
+
+
+<form method="post" action="{U_ACTION_SETTINGS}">
+<fieldset>
+<legend>{L_SETTINGS}</legend>
+
+<dl>
+<dt><label for="categorie">{L_ENABLE_CLASSIFIEDS}</label><br />
+{L_ENABLE_CLASSIFIEDS_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="enable_classifieds" id="enable_classifieds" value="1" <!-- IF ENABLE_CLASSIFIEDS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="enable_classifieds" value="0" <!-- IF not ENABLE_CLASSIFIEDS -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+
+<dl>
+<dt><label for="categorie">{L_DISABLE_MESSAGE}</label><br />
+{L_DISABLE_MESSAGE_EXPLAIN}</dt>
+
+<dd>
+<input type="text"   id="disable_message" name="disable_message" value="{DISABLE_MESSAGE}">
+</dd></dl>
+<dl>
+<dt><label for="minimum_title_length">{L_MINIMUM_LENGTH}</label><br />
+{L_MINIMUM_LENGTH_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="3" id="minimum_title_length" name="minimum_title_length" value="{MINIUM_TITLE_LENGTH}"> {L_CHARACTERS}
+</dd></dl>
+
+<dl>
+<dt><label for="categorie">{L_ALLOW_TINYPIC}</label><br />
+{L_ALLOW_TINYPIC_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="allow_tinypic" id="allow_tinypic" value="1" <!-- IF ALLOW_TINYPIC -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="allow_tinypic" value="0" <!-- IF not ALLOW_TINYPIC -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_ALLOW_UPLOAD}</label><br />
+{L_ALLOW_UPLOAD_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="allow_upload" id="allow_upload" value="1" <!-- IF ALLOW_UPLOAD -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="allow_upload" value="0" <!-- IF not ALLOW_UPLOAD -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_UPLOAD_SIZE}</label><br />
+{L_UPLOAD_SIZE_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="6" id="upload_size" name="upload_size" value="{UPLOAD_SIZE}">
+</dd></dl>
+
+
+<dl>
+<dt><label for="categorie">{L_NUMBER_EXPIRE}</label><br />
+{L_NUMBER_EXPIRE_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="3" id="number_expire" name="number_expire" value="{NUMBER_EXPIRE}">
+</dd>
+</dl>
+
+<dl>
+<dt><label for="categorie">{L_ALLOW_COMMENTS}</label><br />
+{L_ALLOW_COMMENTS_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="allow_comments" id="allow_comments" value="1" <!-- IF ALLOW_COMMENTS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="allow_comments" value="0" <!-- IF not ALLOW_COMMENTS -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+
+
+
+<p style="text-align:right"><input type="submit" name="submited" id="submited" value="{L_SUBMIT}" class="button1"></p>
+
+</fieldset>
+</form>
+<form method="post" action="{U_ACTION_DISPLAY}">
+<fieldset>
+<legend>{L_DISPLAY_SETTINGS}</legend>
+<dl>
+<dt><label for="categorie">{L_SHOW_RULES}</label><br />
+{L_SHOW_RULES_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="show_rules" id="show_rules" value="1" <!-- IF SHOW_RULES -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="show_rules" value="0" <!-- IF not SHOW_RULES -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="sort_active_firste">{L_SORT_ACTIVE_FIRST}</label><br />
+{L_SORT_ACTIVE_FIRST_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="sort_active_first" id="sort_active_first" value="1" <!-- IF SORT_ACTIVE_FIRST -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+	<input type="radio" class="radio" name="sort_active_first" value="0" <!-- IF not SORT_ACTIVE_FIRST -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+
+<dl>
+<dt><label for="categorie">{L_NUMBER_ADS}</label><br />
+{L_NUMBER_ADS_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="3" id="number_ads" name="number_ads" value="{NUMBER_ADS}">
+</dd></dl>
+
+<dl>
+<dt><label for="categorie">{L_CLOSED_COLOR}</label><br />
+{L_CLOSED_COLOR_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="8" id="closed_color" name="closed_color" value="{CLOSED_COLOR}">
+</dd></dl>
+<dl>
+<dt><label for="categorie">{L_SOLD_COLOR}</label><br />
+{L_SOLD_COLOR_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="8" id="sold_color" name="sold_color" value="{SOLD_COLOR}">
+</dd></dl>
+
+<p style="text-align:right"><input type="submit" name="submited" id="submited" value="{L_SUBMIT}" class="button1"></p>
+
+</fieldset>
+</form>
+
+<form method="post" action="{U_ACTION_EMAIL}">
+<fieldset>
+<legend>{L_EMAIL_SETTINGS}</legend>
+<dl>
+<dt><label for="categorie">{L_EMAIL_NEW_AD}</label><br />
+{L_EMAIL_NEW_AD_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="email_ad" id="email_ad" value="1" <!-- IF EMAIL_AD -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="email_ad" value="0" <!-- IF not EMAIL_AD -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_EMAIL_EXPIRED}</label><br />
+{L_EMAIL_EXPIRED_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="email_expire" id="email_expire" value="1" <!-- IF EMAIL_EXPIRE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="email_expire" value="0" <!-- IF not EMAIL_EXPIRE -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_PM_NEW_AD}</label><br />
+{L_PM_NEW_AD_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="pm_ad" id="pm_ad" value="1" <!-- IF PM_AD -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="pm_ad" value="0" <!-- IF not PM_AD -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_PM_EXPIRED}</label><br />
+{L_PM_EXPIRED_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="pm_expire" id="pm_expire" value="1" <!-- IF PM_EXPIRE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+				<input type="radio" class="radio" name="pm_expire" value="0" <!-- IF not PM_EXPIRE -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+<dl>
+<dt><label for="categorie">{L_PM_ID}</label><br />
+{L_PM_ID_EXPLAIN}</dt>
+
+<dd>
+<input type="text" size="3" id="pm_id" name="pm_id" value="{PM_ID}">  ( <strong style="color:#{USER_COLOR}">{PM_USER}</strong> )
+</dd></dl>
+
+
+<p style="text-align:right"><input type="submit" name="submited" id="submited" value="{L_SUBMIT}" class="button1"></p>
+
+</fieldset>
+</form>
+<fieldset>
+<legend>{L_PREVIEW_DISABLE}</legend>
+<p style="text-align:center"><b>{DISABLE_MESSAGE}</b></p>
+</fieldset>
+<form method="post" action="{U_ACTION_PAYPAL}">
+<fieldset>
+<legend>{L_PAYPAL_SETTINGS}</legend>
+{L_PAYPAL_EXPLAIN}<br />
+<br />
+<dl>
+	<dt><label for="enable_int">{L_ENABLE_INT}</label><br />
+		{L_ENABLE_INT_EXPLAIN}</dt>
+			
+	<dd><input <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> type="radio" class="radio" name="enable_int" id="enable_int" value="1" <!-- IF ENABLE_INT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+		<input <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> type="radio" class="radio" name="enable_int" value="0" <!-- IF not ENABLE_INT -->checked="checked"<!-- ENDIF --> /> {L_NO}
+	</dd>			
+</dl>
+<dl>
+	<dt><label for="enable_int">{L_ENABLE_SANDBOX}</label><br />
+		{L_ENABLE_SANDBOX_EXPLAIN}</dt>
+			
+	<dd><input <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> type="radio" class="radio" name="enable_sandbox" id="enable_sandbox" value="1" <!-- IF ENABLE_SANDBOX -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+		<input <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> type="radio" class="radio" name="enable_sandbox" value="0" <!-- IF not ENABLE_SANDBOX -->checked="checked"<!-- ENDIF --> /> {L_NO}
+	</dd>			
+</dl>
+
+<dl>
+	<dt><label for="categorie">{L_MASTER_PAYPAL}</label><br />
+	{L_MASTER_PAYPAL_EXPLAIN}</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> id="master_paypal" name="master_paypal" value="{MASTER_PAYPAL}">
+	</dd>
+</dl>
+<dl>
+	<dt><label for="categorie">{L_AD_COST}</label><br />
+	{L_AD_COST_EXPLAIN}</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="ad_cost" name="ad_cost" value="{AD_COST}">
+	</dd>
+</dl>
+<dl>
+	<dt><label>{L_CURRENCY}</label></dt>
+	<dd>
+	<select <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> name="paypal_currency">
+  		<option value="USD" <!-- IF PAYPAL_CURRENCY == "USD" --> selected="selected" <!-- ENDIF -->>U.S. Dollar</option>
+ 		<option value="CAD" <!-- IF PAYPAL_CURRENCY == "CAD" --> selected="selected" <!-- ENDIF -->>Canadian Dollar</option>
+  		<option value="AUD" <!-- IF PAYPAL_CURRENCY == "AUD" --> selected="selected" <!-- ENDIF -->>Australian Dollar</option>
+  		<option value="CHF" <!-- IF PAYPAL_CURRENCY == "CHF" --> selected="selected" <!-- ENDIF -->>Swiss Franc</option>
+  		<option value="DKK" <!-- IF PAYPAL_CURRENCY == "DKK" --> selected="selected" <!-- ENDIF -->>Danish Krone</option>
+  		<option value="EUR" <!-- IF PAYPAL_CURRENCY == "EUR" --> selected="selected" <!-- ENDIF -->>Euro</option>
+  		<option value="GBP" <!-- IF PAYPAL_CURRENCY == "GBP" --> selected="selected" <!-- ENDIF -->>Pound Sterling</option>
+  		<option value="HKD" <!-- IF PAYPAL_CURRENCY == "HKD" --> selected="selected" <!-- ENDIF -->>Hong Kong Dollar</option>
+  		<option value="HUF" <!-- IF PAYPAL_CURRENCY == "HUF" --> selected="selected" <!-- ENDIF -->>Hungarian Forint</option>
+  		<option value="JPY" <!-- IF PAYPAL_CURRENCY == "JPY" --> selected="selected" <!-- ENDIF -->>Japanese Yen</option>
+  		<option value="NOK" <!-- IF PAYPAL_CURRENCY == "NOK" --> selected="selected" <!-- ENDIF -->>Norwegian Krone</option>
+  		<option value="NZD" <!-- IF PAYPAL_CURRENCY == "NZD" --> selected="selected" <!-- ENDIF -->>New Zealand Dollar</option>
+  		<option value="PLN" <!-- IF PAYPAL_CURRENCY == "PLN" --> selected="selected" <!-- ENDIF -->>Polish Zloty</option>
+  		<option value="SEK" <!-- IF PAYPAL_CURRENCY == "SEK" --> selected="selected" <!-- ENDIF -->>Swedish Krona</option>
+  		<option value="SGD" <!-- IF PAYPAL_CURRENCY == "SGD" --> selected="selected" <!-- ENDIF -->>Singapore Dollar</option>
+</select>
+
+	
+	</dd>
+
+</dl>
+
+<input type="submit" name="submit" id="submit" value="{L_SUBMIT}" class="button1">
+
+</fieldset>
+</form>
+
+<form method="post" action="{U_NEW_CAT}">
+<fieldset>
+<legend>{L_CATEGORIES}</legend>
+<dl>
+<dt><label for="categorie">{L_CATEGORIES}</label></dt>
+<dd><input name="name" type="text" size="18" id="name" maxlength="18"  /> 
+{L_PARENT}? <input type="checkbox" value="1" name="parent" value="parent" onclick="showMe('parents', this)" />
+</dd>
+</dl>
+<dl>
+	<div id="parents" name="parents"><dt><label>{L_PARENT}</label><br />{L_PARENTS_EXPLAIN}</dt>
+	<!-- BEGIN cat -->
+	<!-- IF cat.PARENT --><dd>{cat.NAME} 
+	<input type="radio" name="parent_id" value="{cat.ID}" /></dd><!-- ENDIF --><!-- END cat --></div>
+</dl>
+
+<input type="submit" name="submit" id="submit" value="{L_SUBMIT}" class="button1">
+
+</fieldset>
+</form>
+
+
+<div style="width:50%; margin:auto;">
+<table cellpadding="1" cellspacing="1">
+<th>{L_CATEGORIES}</th>
+<th>{L_OPTIONS}</th>
+<!-- BEGIN cat -->
+<tr>
+
+<td bgcolor="#F9F9F9" width="60%"><!-- IF cat.PARENT --><strong style="color:#5EA2CB">{cat.NAME}</strong><!-- ELSE -->{cat.NAME} {cat.PARENT_CAT}<!-- ENDIF -->
+<div id="actions{cat.ID}" style="display:none">
+<form method="post" action="{cat.EDIT_CAT}">
+<input type="text" id="name" name="name" value="{cat.NAME}" /><br />
+{L_PARENT} <input type="text" size="1" id="parent" name="parent" value="{cat.PARENT}" /> {L_PARENT_EXPLAIN}<br />
+{L_PARENT_ID} <input size="1" type="text" id="parent_id" name="parent_id" value="{cat.PARENT_ID}" /> <br />
+<input type="submit" id="submit" value="{L_SUBMIT}" class="button1" name="submit" />
+</form>
+</div></td>
+<td id="category" style="text-align:center" bgcolor="#DCEBFE" width="40%">
+
+<a id="link{cat.ID}" href="javascript:display('show', {cat.ID})"><img src="images/icon_edit.gif" alt="edit" /></a>
+
+					<!-- IF cat.S_FIRST_ROW && not cat.S_LAST_ROW -->
+						{ICON_MOVE_UP_DISABLED}
+						<a href="{cat.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF not cat.S_FIRST_ROW && not cat.S_LAST_ROW -->
+						<a href="{cat.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						<a href="{cat.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+					<!-- ELSEIF cat.S_LAST_ROW && not cat.S_FIRST_ROW -->
+						<a href="{cat.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ELSE -->
+						{ICON_MOVE_UP_DISABLED}
+						{ICON_MOVE_DOWN_DISABLED}
+					<!-- ENDIF -->
+					
+					<!-- IF cat.ID != 1 --><a href="{cat.DELETE_CAT}">{ICON_DELETE}</a><!-- ELSE -->{ICON_DELETE_DISABLED}<!-- ENDIF -->
+
+
+</td>
+
+</tr>
+<!-- END cat -->
+</table>
+<b>{L_NOTE_REC} </b>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

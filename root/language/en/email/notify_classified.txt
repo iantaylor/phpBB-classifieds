@@ -1,0 +1,22 @@
+Subject: "New classifieds ad on {SITE_NAME}"
+
+Hello {USERNAME} ,
+
+A new as has been posted on {SITE_NAME} view the details below 
+
+ADVERTISEMENT INFORMATION
+_____________________________________________________________________
+
+Posted by : {POSTER}
+Price : {PRICE}
+
+{TITLE}
+
+{DESCRIPTION}
+
+View this ad now : {AD_LINK}
+
+___________
+Thanks,
+
+The Management.
