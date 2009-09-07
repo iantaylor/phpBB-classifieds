@@ -257,6 +257,11 @@ $versions = array(
 
 	
 	)),
+	
+	'0.8.0'	=> array(
+	
+		'table_remove' => CLASSIFIEDS_IMAGES_TABLE,
+	),
 
 );
 
