@@ -229,21 +229,21 @@ $user->setup('mods/classified');
 <?php
 	if($imgUploaded)
 	{
-		echo '<img src="./images/success.gif" width="16" height="16" border="0" style="marin-bottom: -4px;" />'.$user->lang['SUCC'] .'<br /><img src="'.$upload_image.'" border="0" style="max-width: 200px" /><br />';
+		echo '<img src="./images/success.gif" width="16" height="16" border="0" style="marin-bottom: -4px;" />' . $user->lang['SUCC'] .'<br /><img src="' . $upload_image . '" border="0" style="max-width: 200px" /><br />';
 		if($max_width == 100)
 		{
-		echo $user->lang['THUMB_INSTRUCTIONS'].'<br /><form><input type="text" name="theText" onClick="javascript:this.form.theText.focus();this.form.theText.select();" value="'.generate_board_url().str_replace('..','',$upload_image).'" /></form><br />';
+		echo $user->lang['THUMB_INSTRUCTIONS'] . '<br /><form><input type="text" name="theText" onClick="javascript:this.form.theText.focus();this.form.theText.select();" value="' . generate_board_url() . str_replace('..','',$upload_image) . '" /></form><br />';
 		}
 		else
 		{
-		echo $user->lang['INSTRUCTION'].'<br /><form><input type="text" name="theText" onClick="javascript:this.form.theText.focus();this.form.theText.select();" value="[img]'.generate_board_url().str_replace('..','',$upload_image).'[/img]" /></form><br />';
+		echo $user->lang['INSTRUCTION'] . '<br /><form><input type="text" name="theText" onClick="javascript:this.form.theText.focus();this.form.theText.select();" value="[img]' . generate_board_url() . str_replace('..','',$upload_image) . '[/img]" /></form><br />';
 		}	
 		
 		
 	}
 	else
 	{
-		echo '<img src="./images/error.gif" width="16" height="16px" border="0" style="marin-bottom: -3px;" />  '.$user->lang['ERRORS_FOUND'].'<br />';
+		echo '<img src="./images/error.gif" width="16" height="16px" border="0" style="marin-bottom: -3px;" />  ' . $user->lang['ERRORS_FOUND'] . '<br />';
 		foreach($errorList as $value)
 		{
 	    		echo $value.',';

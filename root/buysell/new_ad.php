@@ -2,7 +2,7 @@
 /**
 *
 * @package Classified mod
-* @version $Id: 0.7.0
+* @version $Id: 0.1.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -41,19 +41,23 @@ $edit = request_var('mode', '');
 $id = request_var('ad_id', 0);
 $error = array();
 
-// specialness for the paypal integration
-
-$sql = 'SELECT classifieds_credits FROM ' . USERS_TABLE . ' WHERE user_id = ' . intval($user->data['user_id']);
-$result = $db->sql_query($sql);
+/*
+* The below code is to be used with the paypal integration script that is not provided with the mod.
+* If phpBB classifieds-paypal integration is install this will check if the user has credits, if not he/she will be redirected to the credit purchase form.
+*/
+;
 		
-$total_current = $db->sql_fetchfield('classifieds_credits');
 
-if(!$total_current && $edit != 'edit' && file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx) && $config['enable_int'])
+
+if(!$user->data['classifieds_credits'] && $edit != 'edit' && file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx) && $config['enable_int'])
 {
 
 	redirect(append_sid("{$phpbb_root_path}buysell/paypal.$phpEx"));
 
 }
+/*
+* END special code.
+*/
 
 $template->assign_vars(array(	
 												   
@@ -68,45 +72,53 @@ $template->assign_vars(array(
 
 ));
 
-$sql = 'SELECT * FROM '.CLASSIFIEDS_CATEGORY_TABLE.' ORDER BY left_id ASC';
+$sql = 'SELECT * 
+		FROM ' . CLASSIFIEDS_CATEGORY_TABLE . ' 
+		ORDER BY left_id ASC';
+		
 $result	 = $db->sql_query($sql);
+
 while($row = $db->sql_fetchrow( $result ))
 { 
 		
 	$template->assign_block_vars('cat',array(
 		
-		'NAME'		=>		$row['name'],
-		'ID'		=>		$row['id'],
-		'PARENT'	=> 		$row['parent'],
+		'NAME'		=>	$row['name'],
+		'ID'		=>	$row['id'],
+		'PARENT'	=> 	$row['parent'],
 
-		));
+	));
 }
 
 switch($edit)
 {
 	case 'newad' :
 
-		$now = time();
-		$days = '+'.$config['number_expire'].'days';
-		$expire = strtotime($days, $now);
-		$status 		= request_var('ad_status', 0);
-		$ad_title = utf8_normalize_nfc(request_var('ad_title', '', true));
-		$ad_description = utf8_normalize_nfc(request_var('message', '', true));
-		$price = request_var('ad_price','', true);
+		$now 		= time();
+		$days 		= '+' . $config['number_expire'] . 'days';
+		$expire 	= strtotime($days, $now);
+		$status 	= request_var('ad_status', 0);
+		$ad_title	= utf8_normalize_nfc(request_var('ad_title', '', true));
+		$ad_description 	= utf8_normalize_nfc(request_var('message', '', true));
+		$price 				= request_var('ad_price','', true);
 		$uid = $bitfield = $options = ''; // will be modified by generate_text_for_storage
 		$allow_bbcode = $allow_urls = $allow_smilies = true;
-		$cat 			= request_var('cat', '', true);
-		$allow_comments 		= request_var('allow_comments', 0);
-		$notify_comments 		= request_var('notify_comments', 0);
-		$thumb = request_var('thumb', '');
-		$phone = request_var('phone', '');
-		$paypal = request_var('paypal', '');
+		$cat 				= request_var('cat', '', true);
+		$allow_comments 	= request_var('allow_comments', 0);
+		$notify_comments 	= request_var('notify_comments', 0);
+		$thumb 		= request_var('thumb', '');
+		$phone 		= request_var('phone', '');
+		$paypal 	= request_var('paypal', '');
 		$paypal_currency = request_var('paypal_currency', '');
 
 
-		$sql = 'SELECT * FROM '.CLASSIFIEDS_CATEGORY_TABLE.' WHERE id ='.$cat;
+		$sql = 'SELECT * 
+				FROM ' . CLASSIFIEDS_CATEGORY_TABLE . ' 
+				WHERE id =' . $cat;
+				
 		$result	 = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
+		
 		// check for errors	
 		if (!$ad_title)
 		{
@@ -137,11 +149,129 @@ switch($edit)
 		{
     		$error[] = $user->lang['NO_PRICE'];
 		}
+		if (!preg_match("/^[0-9\.,]+$/", $price))
+		{
+		
+			$error[] = $user->lang['ONLY_NUMBERS'];
+		
+		}
+		
+					
+			/*
+			* The below code is to be used with the paypal integration script that is not provided with the mod.
+			* This will remove 1 credit from the users credits after posting his/her advertisement.			
+			*/
+			if(file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx) && $config['enable_int'])
+			{
+			
+				$remove = 1;
+			
+				if($price >= 11 && $price <= 50)
+				{
+				
+					if ($user->data['classifieds_credits'] < $config['cost_50'])
+					{
+				
+						$error[]	= $user->lang['NEED_MORE_CREDITS'];
+						
+					}
+					else
+					{
+					
+						$remove = $config['cost_50'];
+					
+					}
+				
+				}
+				if($price >= 51 && $price <= 100)
+				{
+				
+					if ($user->data['classifieds_credits'] < $config['cost_100'])
+					{
+				
+						$error[]	= $user->lang['NEED_MORE_CREDITS'];
+						
+					}
+					else
+					{
+					
+						$remove = $config['cost_100'];
+					
+					}
+				}
+				if($price >= 101 && $price <= 200)
+				{
+				
+					if ($user->data['classifieds_credits'] < $config['cost_200'])
+					{
+				
+						$error[]	= $user->lang['NEED_MORE_CREDITS'];
+						
+					}
+					else
+					{
+					
+						$remove = $config['cost_200'];
+					
+					}
+				}
+				if($price >= 201 && $price <= 500)
+				{
+				
+					if ($user->data['classifieds_credits'] < $config['cost_300'])
+					{
+				
+						$error[]	= $user->lang['NEED_MORE_CREDITS'];
+						
+					}
+					else
+					{
+					
+						$remove = $config['cost_300'];
+					
+					}
+				}
+				
+				if($price > 500)
+				{
+				
+					if ($user->data['classifieds_credits'] < $config['cost_500'])
+					{
+				
+						$error[]	= $user->lang['NEED_MORE_CREDITS'];
+						
+					}
+					else
+					{
+					
+						$remove = $config['cost_500'];
+					
+					}
+				
+				}
+				
+				if (!sizeof($error))
+				{
+					$sql = 'UPDATE ' . USERS_TABLE . ' 
+							SET classifieds_credits = classifieds_credits -' . intval($remove) . ' 
+							WHERE user_id= ' . intval($user->data['user_id']);
+					$db->sql_query($sql);
+				
+				}
+				
+			
+					
+			}
+			/*
+			* END special code
+			*/
+
 		
 		if($auth->acl_get('u_post_classifieds') && !sizeof($error)) 
 		{
-
-
+		
+				
+	
 
 			generate_text_for_storage($ad_description, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
@@ -169,19 +299,10 @@ switch($edit)
 
 			));
 
-			$sql = 'INSERT INTO  '.CLASSIFIEDS_TABLE .$db->sql_build_array('INSERT', $sql_ary);
+			$sql = 'INSERT INTO  ' . CLASSIFIEDS_TABLE . $db->sql_build_array('INSERT', $sql_ary);
 			$db->sql_query($sql);
-			
-			if(file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx) && $config['enable_int'])
-			{
-			
-				$sql = 'UPDATE ' . USERS_TABLE . ' 
-						SET classifieds_credits = classifieds_credits -1 
-						WHERE user_id= ' . $user->data['user_id'];
-				$db->sql_query($sql);
-				
-			}
 
+			
 			$sql = $db->sql_build_query('SELECT', array(
 			'SELECT'	=> ' a.*, u.user_id, u.username, u.user_colour',
 			'FROM'		=> array(
@@ -193,7 +314,7 @@ switch($edit)
 					'ON'	=> 'u.user_id = a.ad_poster_id',		
 				)
 			),
-			'WHERE'		=> 'u.user_id = '.$user->data['user_id'],
+			'WHERE'		=> 'u.user_id = ' . $user->data['user_id'],
 			'ORDER_BY'	=> 'a.ad_id DESC'
 			));
 	
@@ -201,7 +322,7 @@ switch($edit)
 		
 			$sql =  'SELECT user_id, username, user_colour, user_lang, user_email, user_jabber, user_notify_type 
 					FROM  '. USERS_TABLE .'
-					WHERE user_id = '.$user->data['user_id'];
+					WHERE user_id = ' . $user->data['user_id'];
 				
 			$result	 = $db->sql_query($sql);
 			$row = $db->sql_fetchrow( $result );
@@ -226,7 +347,7 @@ switch($edit)
 			}
 			// find out who wants to be notified and send a email to them
 			$sql =  'SELECT user_id, username, user_colour, classified_email, user_lang, user_email, user_jabber, user_notify_type 
-						FROM  '. USERS_TABLE .' 
+						FROM  '. USERS_TABLE . ' 
 						WHERE classified_email = 1';
 			$result	 = $db->sql_query($sql);
 			$row = $db->sql_fetchrow( $result );
@@ -245,7 +366,7 @@ switch($edit)
         			'POSTER'		 => $user->data['username'],
         			'SITE_NAME'		 => $config['sitename'],
         			'PRICE'			 => $price,
-        			'AD_LINK'		 => generate_board_url()."/buysell/single_ad.$phpEx"."?ad_id=".$advertisement_id,
+        			'AD_LINK'		 => generate_board_url() . "/buysell/single_ad.$phpEx"."?ad_id=".$advertisement_id,
         			'DESCRIPTION'	 => $ad_description,
 
     			));
@@ -260,7 +381,7 @@ switch($edit)
 
 				$send_from = $config['pm_id'];
 				$my_subject	= $user->lang('NEW');
-				$message	= $row['username']." ".$user->lang('POSTED'). "<b> ".$ad_title. "</b> \n ".$user->lang('EXPIRE'). "<b> ".$user->format_date($expire). "</b> \n ".$user->lang('INFO');
+				$message	= $row['username'] . " " . $user->lang('POSTED'). "<strong> " . $ad_title . "</strong> \n " . $user->lang('EXPIRE') . "<strong> " . $user->format_date($expire) . "</strong> \n " . $user->lang('INFO');
 
 				$poll = $uid = $bitfield = $options = ''; 
 				generate_text_for_storage($my_subject, $uid, $bitfield, $options, false, false, false);
@@ -326,7 +447,7 @@ switch($edit)
        			CLASSIFIEDS_TABLE   		=> 'a',
         		CLASSIFIEDS_CATEGORY_TABLE 	=> 'c',
     		),
-   			'WHERE'     => 'u.user_id = a.ad_poster_id and ad_id = '.$id.' and a.cat_id = c.id',
+   			'WHERE'     => 'u.user_id = a.ad_poster_id and ad_id = ' . $id . ' and a.cat_id = c.id',
 		);
 
 		$sql = $db->sql_build_query('SELECT', $sql_ary);		
@@ -347,7 +468,7 @@ switch($edit)
 			'AD_TITLE'			=>		$row['ad_title'],
 			'AD_PRICE'			=>		$row['ad_price'],
 			'AD_DATE'			=>		$user->format_date($row['ad_date']),
-			'AD_LINK' 			=>	append_sid($phpbb_root_path . 'buysell/single_ad.' . $phpEx ,'ad_id='.$row['ad_id']),
+			'AD_LINK' 			=>	append_sid($phpbb_root_path . 'buysell/single_ad.' . $phpEx ,'ad_id=' . $row['ad_id']),
 			'AD_DESCRIPTION'	=>  	$row['ad_description'],
 			'AD_STATUS'			=> 		$row['ad_status'],
 			'U_ACTION'			=>		append_sid("{$phpbb_root_path}buysell/new_ad.$phpEx", "mode=edit&amp;ad_id=$id"),
@@ -391,19 +512,15 @@ switch($edit)
 				$uid 			= $bitfield = $options = ''; // will be modified by generate_text_for_storage
 				$allow_bbcode 	= $allow_urls = $allow_smilies = true;
 
-				$sql = 'SELECT * FROM '.CLASSIFIEDS_CATEGORY_TABLE.' WHERE id ='.$cat;
-				$result	 = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				
-				// check for errors	
 				if (!$ad_title)
 				{
    	 				$error[] = $user->lang['NO_TITLE'];
 				}
+				
 				// 1=yes
-				if ($row['parent'])
+				if ($row['parent_id'] == 1)
 				{
-					$error[]	= $user->lang['BAD_CATEGORY'];
+					$error[]	= 'YOU CANNOT SELECT A PARENT';
 				}
 				
 				if (strlen($ad_title) < $config['minimum_title_length'])
@@ -477,7 +594,7 @@ switch($edit)
 					));
 
 					$id = request_var('ad_id', 0);
-					$sql = 'UPDATE '.CLASSIFIEDS_TABLE.' SET ' . $db->sql_build_array('UPDATE', $sql_ary). ' WHERE ad_id = '.$id;
+					$sql = 'UPDATE ' . CLASSIFIEDS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary). ' WHERE ad_id = ' . $id;
 					$db->sql_query($sql);
 	
 		 			redirect(append_sid("{$phpbb_root_path}/buysell"));
@@ -521,7 +638,7 @@ switch($edit)
 
 	case 'extend_ad':
 
-		$add_days = '+'.$config['number_expire'].'days';
+		$add_days = '+' . $config['number_expire'] . 'days';
 		$new_date = strtotime($add_days, time());
 	
 		$sql_ary = (array(
@@ -532,7 +649,7 @@ switch($edit)
 		));
 
 		$id = request_var('ad_id', 0);
-		$sql = 'UPDATE '.CLASSIFIEDS_TABLE.' SET ' . $db->sql_build_array('UPDATE', $sql_ary). ' WHERE ad_id = '.$id;
+		$sql = 'UPDATE ' . CLASSIFIEDS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary). ' WHERE ad_id = ' . $id;
 		$db->sql_query($sql);
 
 		redirect(append_sid("{$phpbb_root_path}/buysell"));
@@ -540,7 +657,6 @@ switch($edit)
 	break;
 
 }
-// some needed vars
 
 
 page_footer();

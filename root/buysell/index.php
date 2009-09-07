@@ -2,7 +2,7 @@
 /**
 *
 * @package Classified mod
-* @version $Id: 0.7.0
+* @version $Id: 0.1.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -291,8 +291,8 @@ generate_text_for_storage($my_subject, $uid, $bitfield, $options, false, false, 
 generate_text_for_storage($message, $uid, $bitfield, $options, true, true, true);
 
 		$data = array( 
-			'address_list'		=> array ('u' => array(2 => 'to')),
-			'from_user_id'		=> 2,
+			'address_list'		=> array ('u' => array($row['user_id'] => 'to')),
+			'from_user_id'		=> $config['pm_id'],
 			'from_username'		=> $config['sitename'],
 			'icon_id'			=> 0,
 			'from_user_ip'		=> $user->data['user_ip'],
