@@ -33,7 +33,14 @@ $template->set_filenames(array(
 
 if (!$auth->acl_get('u_view_classifieds'))
 {
-	trigger_error('NOT_AUTHORISED');
+	  if ($user->data['user_id'] == ANONYMOUS)
+      {
+            login_box('', 'LOGIN');
+      }
+	  else
+	  {
+			trigger_error('NOT_AUTHORISED');
+	  }
 }
 
 

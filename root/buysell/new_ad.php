@@ -31,12 +31,16 @@ $template->set_filenames(array(
 	
 if (!$auth->acl_get('u_post_classifieds'))
 {	
-     trigger_error('NOT_AUTHORISED');
+	  if ($user->data['user_id'] == ANONYMOUS)
+      {
+            login_box('', 'LOGIN');
+      }
+	  else
+	  {
+			trigger_error('NOT_AUTHORISED');
+	  }
 }
 
-
-
-		
 $edit = request_var('mode', '');
 $id = request_var('ad_id', 0);
 $error = array();
