@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package Twitter Mod
-* @version $Id: 1.0.0
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -139,6 +139,14 @@ $lang = array_merge($lang, array(
 	'ENABLE_INT_EXPLAIN'	=> 'If enabled users will have to pay a certain fee to post and ad',
 	'ENABLE_SANDBOX'		=> 'Enable sandbox testing',
 	'ENABLE_SANDBOX_EXPLAIN' => 'This will turn on paypal sandbox testing and should only be used for testing not while live!',
+	'COST_10'						=> '# of credits for a ad worth 0-10',
+	'COST_50'						=> '# of credits for a ad worth 11-50',
+	'COST_100'						=> '# of credits for a ad worth 51-100',
+	'COST_200'						=> '# of credits for a ad worth 101-200',
+	'COST_300'						=> '# of credits for a ad worth 201-500',
+	'COST_500'						=> '# of credits for a ad worth 501+',
+	'CREDIT_PER_AD'					=> 'Credit cost based on Ad price',
+
 
 ));
 ?>

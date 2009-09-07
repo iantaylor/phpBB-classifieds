@@ -1,10 +1,9 @@
 <?php
 /**
 *
-* @author platinum_2007 (Ian Taylor) iantaylor603@gmail.com
-* @package Twitter Mod
-* @version 1.0.0
-* @copyright (c) 2009 ian taylor
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
+* @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -70,10 +69,10 @@ $lang = array_merge($lang, array(
 	//errors
 	
 	'NO_TITLE'				=>	'Please enter a title!',
+	'ONLY_NUMBERS'			=>  'Please only enter numbers in the price field!',
 	'NO_TITLE_TOO_SHORT'	=>  'Title is to shot, please enter a minimum of %1s characters!',
 	'NO_DESCRIPTION'		=>	'Please enter a description!',
-	'NO_PRICE'				=>	'Please enter a price!.<br />
-	<b>Note: the price does not have to be a number you may enter a word like "contact" or "offers"</b>',
+	'NO_PRICE'				=>	'Please enter a price!',
 	'AD_EXPIRED'			=>	'Sorry this ad has expired, if you are the owner of this ad please contact the Board Administrator for more information.',
 	'BAD_FILE_TYPE'			=>  'The file you are trying to upload is now allowed! Please make sure the file is either one of the following types: .gif, .jpg, .png, .jpeg, .bmp',
 	'BAD_THUMB_URL'			=> 'Please enter a valid URL in the thumbnail input!',
@@ -124,7 +123,7 @@ If you ad has sold before being expired please edit the ad and mark it "closed" 
 	'PAYPAL_EXPLAIN'				=> 'If you wish to do the transaction with paypal you can enter your email here to display a buynow button on your ad.',
 	'CURRENCY'						=> 'Currency',
 	'VIEW_EXPIRED'					=> 'View expired ads',
-	'PRICE_EXPLAIN'					=> 'Enter your preferred price, you may also enter text like "offers" or "OBO" [mandatory].',
+	'PRICE_EXPLAIN'					=> 'Enter your preferred price, must only be numbers [mandatory].',
 	'PHONE_EXPLAIN'					=> 'Enter your phone number for members to contact you [optional].',
 	'ALLOW_COMMENTS_EXPLAIN'		=> 'Would you like people to be able to comment on your ad?',
 	'EMAIL_COMMENTS_EXPLAIN'		=> 'Would you like to get a email when someone comments on your ad?',
@@ -143,15 +142,24 @@ If you ad has sold before being expired please edit the ad and mark it "closed" 
 	'BOUGHT_ADVERTISEMENTS'			=> 'Advertisements.',
 	'KEEP_TRACK'					=> 'To keep track of your credits you may visit this page at any time.',
 	'PURCHASE_AD'					=> 'Purchase Advertisement',
-	'BUY_CREDIT'					=> 'In order to post an advertisement you need to purchase credits, each credit costs',
-	'CREDIT'						=> 'and you will be able to post 1 advertisement per credit!',
+	'BUY_CREDIT'					=> 'In order to post an advertisement you need to purchase credits Please view the chart below to see how many credits you will need!',
 	'HOW_CREDITS'					=> 'How many credits do you want to purchase?',
 	'ORDER_CAN'						=> 'ORDER HAS BEEN CANCELED',
 	'CALC_TOTAL'					=> 'Calculate total',
 	'ITEM_NAME'						=> 'Classifieds credit',
 	'COMPLETE_ORDER'				=> 'Complete order',
-	'PLACE_AD'						=> 'Post your advertisement now!',	
-	
+	'PLACE_AD'						=> 'Post your advertisement now!',
+	'AD_PRICE_CREDIT'				=> 'Ad price',
+	'CREDITS_NEEDED'				=> 'Credits needed',
+	'COST_PER_10'					=> '0-10',
+	'COST_PER_50'					=> '11-50',
+	'COST_PER_100'					=> '51-100',
+	'COST_PER_200'					=> '101-200',
+	'COST_PER_300'					=> '201-500',
+	'COST_PER_500'					=> '501+',
+	'EACH_CREDIT'					=> 'Each credit will cost',
+	'NEED_MORE_CREDITS'				=> 'You do not have enough credits to place this ad! please refer to this chart <a href="paypal.php">Credit explanation</a>',
+
 ));
 
 

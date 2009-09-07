@@ -1,4 +1,12 @@
 <?php
+/**
+*
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
+* @copyright Ian Taylor
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*
+*/
 define('IN_PHPBB', true);
 
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : '../';

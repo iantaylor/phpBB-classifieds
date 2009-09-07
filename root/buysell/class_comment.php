@@ -1,11 +1,9 @@
 <?php
 /**
 *
-* @author Ian Taylor, Platinum2007 iantaylor603@gmail.com - http://street-steeze.com
-*
-* @package Classifieds
-* @version $id
-* @copyright (c) Street Steeze, Ian-Taylor.ca street-steeze.com
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
+* @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */

@@ -1,4 +1,12 @@
 <?php
+/**
+*
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
+* @copyright Ian Taylor
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -83,7 +91,7 @@ function user_total_ads($user_id)
 	
 		$ads_link = append_sid("{$phpbb_root_path}buysell/index.$phpEx", 'mode=viewuser&amp;user='.$user_id);
 		
-		$list_totals = '( <strong>' . $total_active . '</strong> , <strong style="color:' .$config['sold_color'] . '">' . $total_sold . '</strong> , <strong style="color:' . $config['closed_color'] . '">' . $total_closed . '</strong> )<br /><a href="' . $ads_link . '">(' . $user->lang['VIEW_USERS_ADS'] . ')';
+		$list_totals = '( <strong>' . $total_active . '</strong> , <strong style="color:' .$config['sold_color'] . '">' . $total_sold . '</strong> , <strong style="color:' . $config['closed_color'] . '">' . $total_closed . '</strong> )<br /><a href="' . $ads_link . '">(' . $user->lang['VIEW_USERS_ADS'] . ')</a>';
 
 	
 	}

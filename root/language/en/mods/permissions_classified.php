@@ -1,5 +1,13 @@
 <?php
 /**
+*
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
+* @copyright Ian Taylor
+* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*
+*/
+/**
 * DO NOT CHANGE
 */
 if (!defined('IN_PHPBB'))

@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package Twitter Mod
-* @version $Id: 1.0.0
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -236,6 +236,12 @@ switch($settings)
 		set_config('paypal_currency', request_var('paypal_currency', ''));
 		set_config('enable_sandbox', request_var('enable_sandbox', 0));
 
+		set_config('cost_10', request_var('cost_10', 0));
+		set_config('cost_50', request_var('cost_50', 0));
+		set_config('cost_100', request_var('cost_100', 0));
+		set_config('cost_200', request_var('cost_200', 0));
+		set_config('cost_300', request_var('cost_300', 0));
+		set_config('cost_500', request_var('cost_500', 0));
 	
 	break;      		
           
@@ -404,7 +410,14 @@ while($row = $db->sql_fetchrow( $result ))
 		'PAYPAL_CURRENCY'			=> $config['paypal_currency'],
 		'ENABLE_INT'				=> $config['enable_int'],
 		'ENABLE_SANDBOX'			=> $config['enable_sandbox'],
+		'COST_10'					=> $config['cost_10'],
+		'COST_50'					=> $config['cost_50'],
+		'COST_100'					=> $config['cost_100'],
+		'COST_200'					=> $config['cost_200'],
+		'COST_300'					=> $config['cost_300'],
 		
+		'COST_500'					=> $config['cost_500'],
+	
 		'PAYPAL_FILE'				=> file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx),
 					
 	));

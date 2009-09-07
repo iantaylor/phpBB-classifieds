@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package Classified mod
-* @version $Id: 0.1.0
+* @package phpBB Classifieds MOD
+* @version $Id: 0.7.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
