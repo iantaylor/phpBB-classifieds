@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="./modx.prosilver.en.xsl" ?>
+<!--
+	NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.
+-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.2.xsd">
+<header>
+	<meta name="generated-by" content="PP MODX Creator by tumba25" />
+		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
+	<title lang="en">Classifieds mod</title>
+	<description lang="en">Add a classifieds to your website</description>
+	<author-group>
+		<author>
+			<realname>Ian Taylor</realname>
+			<username>platinum_2007</username>
+			<homepage>http://ian-taylor.ca</homepage>
+			<email>iantaylor603@gmail.com</email>
+		</author>
+	</author-group>
+	<mod-version>0.7.0</mod-version>
+	<installation>
+		<level>easy</level>
+		<time>800</time>
+		<target-version>3.0.5</target-version>
+	</installation>
+</header>
+<action-group>
+	<copy>
+		<file from="root/umil/*.*" to="umil/*.*" />
+
+		<file from="root/buysell/*.*" to="buysell/*.*" />
+		<file from="root/adm/mods/classifeids_version.php" to="adm/mods/classifeids_version.php" />
+		<file from="root/adm/style/acp_classifieds.html" to="adm/style/acp_classifieds.html" />
+		<file from="root/adm/style/acp_classifieds_manage.html" to="adm/style/acp_classifieds_manage.html" />
+		<file from="root/includes/acp/info/acp_classifieds.php" to="includes/acp/info/acp_classifieds.php" />
+		<file from="root/includes/acp/acp_classifieds.php" to="includes/acp/acp_classifieds.php" />
+		<file from="root/language/en/email/new_ad.txt" to="language/en/email/new_ad.txt" />
+		<file from="root/language/en/email/ad_expired.txt" to="language/en/email/ad_expired.txt" />
+		<file from="root/language/en/email/notify_classified.txt" to="language/en/email/notify_classified.txt" />
+		<file from="root/language/en/email/classifieds_comment.txt" to="language/en/email/classifieds_comment.txt" />
+		<file from="root/language/en/mods/classified.php" to="language/en/mods/classified.php" />
+		<file from="root/language/en/mods/info_acp_classifieds.php" to="language/en/mods/info_acp_classifieds.php" />
+		<file from="root/language/en/mods/permissions_classified.php" to="language/en/mods/permissions_classified.php" />
+		<file from="root/styles/prosilver/template/classified_ad_body.html" to="styles/prosilver/template/classified_ad_body.html" />
+		<file from="root/styles/prosilver/template/classified_index_body.html" to="styles/prosilver/template/classified_index_body.html" />
+		<file from="root/styles/prosilver/template/classified_single_body.html" to="styles/prosilver/template/classified_single_body.html" />
+		<file from="root/styles/prosilver/imageset/post_ad.gif" to="styles/prosilver/imageset/post_ad.gif" />
+		<file from="root/styles/prosilver/theme/images/cart.png" to="styles/prosilver/theme/images/cart.png" />
+</copy>
+<open src="index.php">
+<edit>
+<find><![CDATA[			$birthday_list .= ' (' . ($now['year'] - $age) . ')';
+		}
+	}
+	$db->sql_freeresult($result);
+}
+]]></find>
+<action type="after-add"><![CDATA[if($config['enable_classifieds']){
+	$sql = 'SELECT COUNT(ad_id) as NUMBER_ADS FROM '.CLASSIFIEDS_TABLE.' WHERE ad_status = 0 and ad_expire > '.time();
+	$result = $db->sql_query($sql);
+	$row = $db->sql_fetchrow($result);
+	$db->sql_freeresult($result);
+
+}]]></action>
+</edit>
+<edit>
+<find><![CDATA[	'TOTAL_POSTS'	=> sprintf($user->lang[$l_total_post_s], $total_posts),]]></find>
+<action type="before-add"><![CDATA[	'TOTAL_ADS'		=> $row['NUMBER_ADS'],]]> </action>
+</edit>
+</open>
+
+
+	<open src="memberlist.php">
+<edit>
+<find><![CDATA[		else
+		{
+			$member['posts_in_queue'] = 0;
+		}]]></find>
+<action type="after-add"><![CDATA[		if(!function_exists('user_total_ads'))
+		{
+			include($phpbb_root_path . 'buysell/includes/functions_buysell.' . $phpEx);
+		}
+]]></action>
+</edit>
+<edit>
+<find><![CDATA[			'S_CUSTOM_FIELDS'	=> (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
+]]></find>
+<action type="after-add"><![CDATA[			'USER_ADVERTISEMENTS' => user_total_ads($user_id),
+]]></action>
+</edit>
+
+</open>
+<open src="includes/constants.php">
+<edit>
+<find><![CDATA[// Additional tables
+]]></find>
+<action type="after-add"><![CDATA[define('CLASSIFIEDS_TABLE',					$table_prefix . 'classifieds');
+define('CLASSIFIEDS_CATEGORY_TABLE',		$table_prefix . 'classifieds_categories');
+define('CLASSIFIEDS_COMMENTS_TABLE',		$table_prefix . 'classifieds_comments');
+
+]]></action>
+</edit>
+</open>
+<open src="includes/functions.php">
+<edit>
+<find><![CDATA[		'U_PRIVATEMSGS'			=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=inbox'),
+]]></find>
+<action type="before-add"><![CDATA[		'U_CLASSIFIEDS'   				=> append_sid("{$phpbb_root_path}buysell"),
+]]></action>
+</edit>
+</open>
+<open src="includes/ucp/ucp_prefs.php">
+<edit>
+<find><![CDATA[					'massemail'		=> request_var('massemail', (bool) $user->data['user_allow_massemail']),
+]]></find>
+<action type="after-add"><![CDATA[					'classified_email' => request_var('classified_email', (bool) $user->data['classified_email']),
+]]></action>
+</edit>
+<edit>
+<find><![CDATA[							'user_allow_massemail'	=> $data['massemail'],
+]]></find>
+<action type="after-add"><![CDATA[							'classified_email' => $data['classified_email'],
+]]></action>
+</edit>
+<edit>
+<find><![CDATA[					'S_MASS_EMAIL'		=> $data['massemail'],
+]]></find>
+<action type="after-add"><![CDATA[					'S_CLASSIFIED_EMAIL' => $data['classified_email'],
+]]></action>
+</edit>
+</open>
+<open src="language/en/common.php">
+<edit>
+<find><![CDATA[	'TOTAL_ATTACHMENTS'	=> 'Attachment(s)',
+]]></find>
+<action type="before-add"><![CDATA[	'TOTAL_ADS'			=> 'Total ads',
+	'CLASSIFIEDS'		=> 'Classifieds',
+
+]]></action>
+</edit>
+</open>
+<open src="language/en/memberlist.php">
+<edit>
+<find><![CDATA[	'CONTACT_USER'			=> 'Contact',
+]]></find>
+<action type="before-add"><![CDATA[	'CLASSIFIEDS_ADS'		=>	'Classifieds ads',
+	'VIEW_USERS_ADS'		=> 	'View users ads',
+
+]]></action>
+</edit>
+</open>
+
+<open src="language/en/acp/permissions_phpbb.php">
+<edit>
+<find><![CDATA[		'actions'		=> 'Actions',
+]]></find>
+<action type="after-add"><![CDATA[		'classifieds'	=>	'classifieds',
+]]></action>
+</edit>
+</open>
+
+<open src="language/en/acp/common.php">
+<edit>
+<find><![CDATA[	'SORT_ACTION'	=> 'Log action',
+]]></find>
+<action type="after-add"><![CDATA[	'LOG_CLASSIFIEDS_MOVE_DOWN'			=> '<strong>Moved classifieds category</strong> %1$s <strong>below</strong> %2$s',
+	'LOG_CLASSIFIEDS_MOVE_UP'			=> '<strong>Moved classifieds category</strong> %1$s <strong>above</strong> %2$s',
+	'LOG_CLASSIFIEDS_NEW_CATEGORY'		=> '<strong>Added new classifieds category</strong> [%1$s]',
+	'LOG_CLASSIFIEDS_DELETE_CATEGORY'	=> '<strong>Deleted classifieds category</strong>',
+	'LOG_CLASSIFIEDS_EDIT_CATEGORY'		=> '<strong>Edited classifieds category</strong> new name -> [%1$s]',
+]]></action>
+</edit>
+</open>
+
+<open src="language/en/ucp.php">
+<edit>
+<find><![CDATA[	'CLICK_RETURN_FOLDER'		=> '%1$sReturn to your “%3$s” folder%2$s',
+]]></find>
+<action type="after-add"><![CDATA[	'CLASSIFIED_EMAIL'			=> 'Email on new classifieds ads',
+	'CLASSIFIED_EMAIL_EXPLAIN'	=> 'If set to yes you will be notified by email when a new Classifieds ad is placed',
+]]></action>
+</edit>
+</open>
+
+<open src="styles/prosilver/template/index_body.html">
+<edit>
+<find><![CDATA[<p>{TOTAL_POSTS} &bull; {TOTAL_TOPICS} &bull; {TOTAL_USERS} &bull; {NEWEST_USER}</p>
+]]></find>
+<inline-edit>
+<inline-find><![CDATA[{TOTAL_TOPICS}]]></inline-find>
+<inline-action type="after-add"><![CDATA[ &bull; {L_TOTAL_ADS}: <b>{TOTAL_ADS}</b>]]></inline-action>
+</inline-edit>
+</edit>
+</open>
+<open src="styles/prosilver/template/memberlist_view.html">
+<edit>
+<find><![CDATA[<dd><strong>{WARNINGS}</strong> [ <a href="{U_NOTES}">{L_VIEW_NOTES}</a> <!-- IF U_WARN --> | <a href="{U_WARN}">{L_WARN_USER}</a> <!-- ENDIF -->]</dd>
+			<!-- ENDIF -->]]></find>
+<action type="after-add"><![CDATA[			<dt>{L_CLASSIFIEDS_ADS}: <dd> {USER_ADVERTISEMENTS}</dd></dt>
+]]></action>
+</edit>
+</open>
+<open src="styles/prosilver/template/overall_header.html">
+<edit>
+<find><![CDATA[<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
+]]></find>
+<action type="after-add"><![CDATA[			<li><img src="{T_THEME_PATH}/images/cart.png" /><a href="{U_CLASSIFIEDS}" title="{L_CLASSIFIEDS}">{L_CLASSIFIEDS}</a></li>
+]]></action>
+</edit>
+</open>
+<open src="styles/prosilver/template/ucp_prefs_personal.html">
+<edit>
+<find><![CDATA[<dl>
+		<dt><label for="massemail1">{L_ADMIN_EMAIL}:</label></dt>
+		<dd>
+			<label for="massemail1"><input type="radio" name="massemail" id="massemail1" value="1"<!-- IF S_MASS_EMAIL --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+			<label for="massemail0"><input type="radio" name="massemail" id="massemail0" value="0"<!-- IF not S_MASS_EMAIL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+		</dd>
+	</dl>]]></find>
+<action type="after-add"><![CDATA[<dl>
+		<dt><label for="classified_email">{L_CLASSIFIED_EMAIL}:</label><br /><span>{L_CLASSIFIED_EMAIL_EXPLAIN}</span></dt>
+		<dd>
+			<label for="classified_email1"><input type="radio" name="classified_email" id="classified_email1" value="1"<!-- IF S_CLASSIFIED_EMAIL --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+			<label for="classified_email0"><input type="radio" name="classified_email" id="classified_email0" value="0"<!-- IF not S_CLASSIFIED_EMAIL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+		</dd>
+	</dl>
+]]></action>
+</edit>
+</open>
+
+
+<diy-instructions lang="en">
+After doing the edits browse to http://www.yoursite.com/buysell/classifieds_install.php 
+
+After running the installation set the permissions and your good to go!
+ </diy-instructions>
+</action-group>
+</mod>
