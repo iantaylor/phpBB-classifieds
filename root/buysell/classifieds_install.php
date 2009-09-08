@@ -262,6 +262,11 @@ $versions = array(
 	
 		'table_remove' => CLASSIFIEDS_IMAGES_TABLE,
 	),
+	'table_column_add' => array(
+			array(USERS_TABLE, 'last_classifieds_visit', array('VCHAR', '0')),
+				
+	),
+
 
 );
 

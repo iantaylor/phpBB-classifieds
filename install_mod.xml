@@ -104,9 +104,30 @@ define('CLASSIFIEDS_COMMENTS_TABLE',		$table_prefix . 'classifieds_comments');
 </open>
 <open src="includes/functions.php">
 <edit>
-<find><![CDATA[		'U_PRIVATEMSGS'			=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;folder=inbox'),
-]]></find>
-<action type="before-add"><![CDATA[		'U_CLASSIFIEDS'   				=> append_sid("{$phpbb_root_path}buysell"),
+<find><![CDATA[	$user_lang = $user->lang['USER_LANG'];
+if (strpos($user_lang, '-x-') !== false)
+	{
+		$user_lang = substr($user_lang, 0, strpos($user_lang, '-x-'));
+	}]]></find>
+<action type="after-add"><![CDATA[if (isset($config['classifieds_enable']))
+{
+    $new_ads= 0;
+    $sql = 'SELECT COUNT(c.ad_id) AS new_ads
+       FROM '. CLASSIFIEDS_TABLE .' c, ' . USERS_TABLE . " u
+       WHERE c.ad_date >= u.last_classifieds_visit
+          AND u.user_id = ". $user->data['user_id'];
+    $result = $db->sql_query($sql);
+    $new_ads = $db->sql_fetchrow($result);
+       $new_ads = $new_ads['new_ads'];
+       $db->sql_freeresult($result);
+       $template->assign_vars(array(
+          'NEW_ADS' 		=> $new_ads,
+		  'U_CLASSIFIEDS'   => append_sid("{$phpbb_root_path}buysell"),
+          'L_TOTAL_ADS_COUNT' 	=> ($new_ads == 1) ? $user->lang['NEW_AD_ONE'] : sprintf($user->lang['NEW_ADS'], $new_ads),
+
+       ));
+
+}
 ]]></action>
 </edit>
 </open>
@@ -136,6 +157,9 @@ define('CLASSIFIEDS_COMMENTS_TABLE',		$table_prefix . 'classifieds_comments');
 ]]></find>
 <action type="before-add"><![CDATA[	'TOTAL_ADS'			=> 'Total ads',
 	'CLASSIFIEDS'		=> 'Classifieds',
+	'NEW_ADS'			=> '(<strong>%d</strong> new ads)',
+	'NEW_AD_ONE'			=> '(<strong>1</strong> new ad)',
+
 
 ]]></action>
 </edit>
@@ -205,7 +229,7 @@ define('CLASSIFIEDS_COMMENTS_TABLE',		$table_prefix . 'classifieds_comments');
 <edit>
 <find><![CDATA[<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
 ]]></find>
-<action type="after-add"><![CDATA[			<li><img src="{T_THEME_PATH}/images/cart.png" /><a href="{U_CLASSIFIEDS}" title="{L_CLASSIFIEDS}">{L_CLASSIFIEDS}</a></li>
+<action type="after-add"><![CDATA[			<li><img src="{T_THEME_PATH}/images/cart.png" /><a href="{U_CLASSIFIEDS}" title="{L_CLASSIFIEDS}">{L_CLASSIFIEDS} {L_TOTAL_ADS_COUNT}</a></li>
 ]]></action>
 </edit>
 </open>

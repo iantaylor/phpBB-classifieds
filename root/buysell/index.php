@@ -44,6 +44,13 @@ if (!$auth->acl_get('u_view_classifieds'))
 }
 
 
+$timestamp = time();
+$sqlupd = "UPDATE  
+" . USERS_TABLE . " 
+SET	last_classifieds_visit = $timestamp
+WHERE user_id = " . $db->sql_escape($user->data['user_id']);
+$db->sql_query($sqlupd);
+
 $limit = intval($config['number_ads']);
 $start   = request_var('start', 0);
 	

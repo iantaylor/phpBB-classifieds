@@ -41,6 +41,7 @@ if (!$auth->acl_get('u_post_classifieds'))
 	  }
 }
 
+
 $edit = request_var('mode', '');
 $id = request_var('ad_id', 0);
 $error = array();
