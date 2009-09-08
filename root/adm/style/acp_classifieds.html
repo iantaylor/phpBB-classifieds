@@ -169,10 +169,21 @@ function display(action, id)
 <dl>
 <dt><label for="categorie">{L_SOLD_COLOR}</label><br />
 {L_SOLD_COLOR_EXPLAIN}</dt>
-
 <dd>
 <input type="text" size="8" id="sold_color" name="sold_color" value="{SOLD_COLOR}">
-</dd></dl>
+	</dd>
+</dl>
+
+<dl>
+<dt><label for="categorie">{L_SHOW_FULL}</label><br />
+{L_SHOW_FULL_EXPLAIN}</dt>
+			
+<dd><input type="radio" class="radio" name="show_full" id="show_full" value="1" <!-- IF SHOW_FULL -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp; 
+<input type="radio" class="radio" name="show_full" value="0" <!-- IF not SHOW_FULL -->checked="checked"<!-- ENDIF --> /> {L_NO}
+</dd>			
+</dl>
+
+
 
 <p style="text-align:right"><input type="submit" name="submited" id="submited" value="{L_SUBMIT}" class="button1"></p>
 
@@ -291,6 +302,53 @@ function display(action, id)
 	
 	</dd>
 
+</dl>
+<label>{L_CREDIT_PER_AD}</label><br />
+<hr /><br />
+<dl>
+	<dt><label for="cost_10">{L_COST_10}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_10" name="cost_10" value="{COST_10}">
+	</dd>
+</dl>
+<dl>
+	<dt><label for="cost_50">{L_COST_50}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_50" name="cost_50" value="{COST_50}">
+	</dd>
+</dl>
+
+<dl>
+	<dt><label for="cost_100">{L_COST_100}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_100" name="cost_100" value="{COST_100}">
+	</dd>
+</dl>
+
+<dl>
+	<dt><label for="cost_200">{L_COST_200}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_200" name="cost_200" value="{COST_200}">
+	</dd>
+</dl>
+<dl>
+	<dt><label for="cost_300">{L_COST_300}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_300" name="cost_300" value="{COST_300}">
+	</dd>
+</dl>
+
+<dl>
+	<dt><label for="cost_500">{L_COST_500}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="cost_500" name="cost_500" value="{COST_500}">
+	</dd>
 </dl>
 
 <input type="submit" name="submit" id="submit" value="{L_SUBMIT}" class="button1">

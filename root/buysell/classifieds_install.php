@@ -266,6 +266,9 @@ $versions = array(
 			array(USERS_TABLE, 'last_classifieds_visit', array('VCHAR', '0')),
 				
 	),
+	'config_add' => array(
+		array('show_full', '0', '0'),
+	),
 
 
 );

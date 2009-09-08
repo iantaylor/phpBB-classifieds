@@ -13,25 +13,37 @@ if (!defined('IN_PHPBB'))
 }
 function build_categories()
 {
-	global $db, $phpbb_root_path, $phpEx;
+	global $db, $phpbb_root_path, $phpEx, $config;
 
 	$sql = 'SELECT * FROM '.CLASSIFIEDS_CATEGORY_TABLE.' ORDER BY left_id ASC';
 	$result	 = $db->sql_query($sql);
 	$category = '';
+	$show_only_full = $config['show_full'];
+	
 	
 	while ($row = $db->sql_fetchrow($result)) 
 	{ 
+		
 		$category_link = append_sid($phpbb_root_path . 'buysell/index.' . $phpEx, 'mode=cat&amp;id=' . intval($row['id']));
 		$parent_link = append_sid($phpbb_root_path . 'buysell/index.' . $phpEx, 'mode=cat&amp;parent_id=' . intval($row['id']));
-
+	
 		if ($row['parent'])
 		{
 			$category .= '<strong><a href="'. $parent_link .'">'. $row['name'] .'</a></strong><br />';
 		}
 		else
 		{
-			$category .= '» <a href="'. $category_link .'">'. $row['name'] .'</a> (' . total_ads_per_category($row['id']) . ')<br />';
+			if($show_only_full && total_ads_per_category($row['id']) != 0)
+			{
+				$category .= '» <a href="'. $category_link .'">'. $row['name'] .'</a> (' . total_ads_per_category($row['id']) . ')<br />';
+			}
+			elseif(!$show_only_full)
+			{
+				$category .= '» <a href="'. $category_link .'">'. $row['name'] .'</a> (' . total_ads_per_category($row['id']) . ')<br />';
+			}
+			
 		}
+	
 	}
 	return $category;
 }

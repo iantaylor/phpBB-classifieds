@@ -202,6 +202,7 @@ switch($settings)
 		set_config('sort_active_first', request_var('sort_active_first', 0));
 		set_config('number_ads', request_var('number_ads', 0));
 		set_config('show_rules', request_var('show_rules', 0));
+		set_config('show_full', request_var('show_full', 0));
 	
 		
 	break;
@@ -417,6 +418,7 @@ while($row = $db->sql_fetchrow( $result ))
 		'COST_300'					=> $config['cost_300'],
 		
 		'COST_500'					=> $config['cost_500'],
+		'SHOW_FULL'					=> $config['show_full'],
 	
 		'PAYPAL_FILE'				=> file_exists($phpbb_root_path . 'buysell/paypal.' . $phpEx),
 					

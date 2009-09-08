@@ -146,6 +146,8 @@ $lang = array_merge($lang, array(
 	'COST_300'						=> '# of credits for a ad worth 201-500',
 	'COST_500'						=> '# of credits for a ad worth 501+',
 	'CREDIT_PER_AD'					=> 'Credit cost based on Ad price',
+	'SHOW_FULL'						=> 'Hide empty categories',
+	'SHOW_FULL_EXPLAIN'				=> 'If enabled only categories with 1 or more ads will display, parents will still display',
 
 
 ));
