@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Classifieds MOD
-* @version $Id: 0.7.0
+* @version $Id: 0.8.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -148,6 +148,14 @@ $lang = array_merge($lang, array(
 	'CREDIT_PER_AD'					=> 'Credit cost based on Ad price',
 	'SHOW_FULL'						=> 'Hide empty categories',
 	'SHOW_FULL_EXPLAIN'				=> 'If enabled only categories with 1 or more ads will display, parents will still display',
+	'AWARD_CREDITS'					=> 'Award Credits',
+	'AWARD_CREDITS_EXPLAIN'			=> 'Here you are able to award users credits to post ads in your classifieds.<br /> This feature is used with the paypal integration only!',
+	'AWARD_USER'					=> 'Send credits to user ID',
+	'NUMBER_CREDITS'				=> 'Number of credits to award',
+	'SEND_USER_PM'					=> 'Send user a notification PM',
+	'SEND_USER_EMAIL'				=> 'Send user a notification email',
+	'AWARDED'						=> 'Classifieds credits awarded',
+	'AWARD_MESSAGE'					=> 'Your account has been awarded with %1$s credits this gives you a total of %2$s credits in your account, credits can be used to post advertisements in the classifieds section!',
 
 
 ));

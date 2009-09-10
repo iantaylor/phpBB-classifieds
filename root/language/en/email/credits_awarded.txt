@@ -1,0 +1,13 @@
+Subject: "{SITENAME}" - Classifieds Credits awarded
+
+{USERNAME}
+
+Your account on {SITENAME} has been awarded with {NUMBER_CREDITS} credits this gives you a total of {TOTAL_CREDITS} credits in your account, credits can be used to post advertisements in the classifieds section!
+
+Thanks,
+
+The Management
+
+
+
+

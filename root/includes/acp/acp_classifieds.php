@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Classifieds MOD
-* @version $Id: 0.7.0
+* @version $Id: 0.8.0
 * @copyright Ian Taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -20,6 +20,8 @@ class acp_classifieds
       global $db, $user, $auth, $template, $cache;
       global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
       include($phpbb_root_path . 'buysell/includes/functions_buysell.' . $phpEx);
+      include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
+	  include($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
 
       
       switch($mode)
@@ -244,7 +246,78 @@ switch($settings)
 		set_config('cost_300', request_var('cost_300', 0));
 		set_config('cost_500', request_var('cost_500', 0));
 	
-	break;      		
+	break; 
+	
+	case "award" :
+	
+	$awards = request_var('number_credits', 0);
+	$user_to_award = request_var('award_user', 0);
+	$send_email = request_var('send_user_email', '');
+	$send_pm 	= request_var('send_user_pm', '');
+	
+	$sql = 'UPDATE ' . USERS_TABLE . ' SET classifieds_credits = classifieds_credits +' . $awards . ' WHERE user_id = ' . $user_to_award;
+	$db->sql_query($sql);
+	
+	$sql =  'SELECT user_id, username, user_colour, classifieds_credits, user_lang, user_email, user_jabber, user_notify_type 
+			FROM  '. USERS_TABLE .'
+			WHERE user_id = ' . $user_to_award;
+				
+	$result	 = $db->sql_query($sql);
+	$row = $db->sql_fetchrow( $result );
+	$db->sql_freeresult($result);
+	
+	if ($send_email)
+	{	
+
+		$messenger = new messenger();
+
+		$messenger->template('credits_awarded', $row['user_lang']);
+    	$messenger->to($row['user_email'], $row['username']);
+    	$messenger->im($row['user_jabber'], $row['username']);
+    	$messenger->assign_vars(array(
+        	'USERNAME'    	 => $row['username'],
+        	'SITE_NAME'		 => $config['sitename'],
+        	'TOTAL_CREDITS'	 => $row['classifieds_credits'],
+        	'NUMBER_CREDITS' => $awards,
+        	
+    	));
+    		
+    	$messenger->send($row['user_notify_type']);
+		$messenger->save_queue();
+				
+	}
+	if($send_pm)
+	{
+
+		$send_from = $config['pm_id'];
+		$my_subject	= $user->lang['AWARDED'];
+		$message	= sprintf($user->lang['AWARD_MESSAGE'], $awards, $row['classifieds_credits']);
+
+		$poll = $uid = $bitfield = $options = ''; 
+		generate_text_for_storage($my_subject, $uid, $bitfield, $options, false, false, false);
+		generate_text_for_storage($message, $uid, $bitfield, $options, true, true, true);
+
+		$data = array( 
+			'address_list'		=> array ('u' => array($user_to_award => 'to')),
+			'from_user_id'		=> $send_from,
+			'from_username'		=> $config['sitename'],
+			'icon_id'			=> 0,
+			'from_user_ip'		=> $user->data['user_ip'],
+			'enable_bbcode'		=> true,
+			'enable_smilies'	=> true,
+			'enable_urls'		=> true,
+			'enable_sig'		=> true,
+			'message'			=> $message,
+			'bbcode_bitfield'	=> $bitfield,
+			'bbcode_uid'		=> $uid,
+
+		
+			);
+				submit_pm('post', $my_subject, $data, false);
+		}
+
+	
+	break;     		
           
 
 }
@@ -385,9 +458,9 @@ while($row = $db->sql_fetchrow( $result ))
 		'U_ACTION_PAYPAL'			=> $this->u_action . '&amp;settings=paypal',	
 		'U_ACTION_EMAIL'			=> $this->u_action . '&amp;settings=email',	
 		'U_ACTION_DISPLAY'			=> $this->u_action . '&amp;settings=display',	
+		'U_ACTION_AWARD'			=> $this->u_action . '&amp;settings=award',	
 		'ENABLE_CLASSIFIEDS'		=> $config['enable_classifieds'],
 		'DISABLE_MESSAGE'			=> $config['disable_message'],
-		'ALLOW_GUEST'				=> $config['allow_guest'],
 		'NUMBER_ADS'				=> $config['number_ads'],
 		'NUMBER_EXPIRE'				=> $config['number_expire'],
 		'EMAIL_AD'					=> $config['email_ad'],	

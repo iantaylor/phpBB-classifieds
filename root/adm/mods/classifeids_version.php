@@ -25,7 +25,7 @@ class classifieds_version
 			'author'	=> 'Platinum_2007',
 			'title'		=> 'phpbb Classifieds',
 			'tag'		=> 'mod_version_check',
-			'version'	=> '0.7.0',
+			'version'	=> '0.8.0',
 			'file'		=> array('itmods.com', 'updatecheck', 'mods.xml'),
 		);
 	}

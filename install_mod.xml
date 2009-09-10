@@ -18,7 +18,7 @@
 			<email>iantaylor603@gmail.com</email>
 		</author>
 	</author-group>
-	<mod-version>0.7.0</mod-version>
+	<mod-version>0.8.0</mod-version>
 	<installation>
 		<level>easy</level>
 		<time>800</time>
@@ -39,6 +39,7 @@
 		<file from="root/language/en/email/ad_expired.txt" to="language/en/email/ad_expired.txt" />
 		<file from="root/language/en/email/notify_classified.txt" to="language/en/email/notify_classified.txt" />
 		<file from="root/language/en/email/classifieds_comment.txt" to="language/en/email/classifieds_comment.txt" />
+		<file from="root/language/en/email/credits_awarded.txt" to="language/en/email/credits_awarded.txt" />
 		<file from="root/language/en/mods/classified.php" to="language/en/mods/classified.php" />
 		<file from="root/language/en/mods/info_acp_classifieds.php" to="language/en/mods/info_acp_classifieds.php" />
 		<file from="root/language/en/mods/permissions_classified.php" to="language/en/mods/permissions_classified.php" />
@@ -158,10 +159,7 @@ if (strpos($user_lang, '-x-') !== false)
 <action type="before-add"><![CDATA[	'TOTAL_ADS'			=> 'Total ads',
 	'CLASSIFIEDS'		=> 'Classifieds',
 	'NEW_ADS'			=> '(<strong>%d</strong> new ads)',
-	'NEW_AD_ONE'			=> '(<strong>1</strong> new ad)',
-
-
-]]></action>
+	'NEW_AD_ONE'			=> '(<strong>1</strong> new ad)',]]></action>
 </edit>
 </open>
 <open src="language/en/memberlist.php">
@@ -169,18 +167,14 @@ if (strpos($user_lang, '-x-') !== false)
 <find><![CDATA[	'CONTACT_USER'			=> 'Contact',
 ]]></find>
 <action type="before-add"><![CDATA[	'CLASSIFIEDS_ADS'		=>	'Classifieds ads',
-	'VIEW_USERS_ADS'		=> 	'View users ads',
-
-]]></action>
+	'VIEW_USERS_ADS'		=> 	'View users ads',]]></action>
 </edit>
 </open>
 
 <open src="language/en/acp/permissions_phpbb.php">
 <edit>
-<find><![CDATA[		'actions'		=> 'Actions',
-]]></find>
-<action type="after-add"><![CDATA[		'classifieds'	=>	'classifieds',
-]]></action>
+<find><![CDATA[		'actions'		=> 'Actions',]]></find>
+<action type="after-add"><![CDATA[		'classifieds'	=>	'classifieds',]]></action>
 </edit>
 </open>
 

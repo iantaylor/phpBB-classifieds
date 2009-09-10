@@ -355,6 +355,47 @@ function display(action, id)
 
 </fieldset>
 </form>
+<form method="post" action="{U_ACTION_AWARD}">
+<fieldset>
+
+<legend>{L_AWARD_CREDITS}</legend><br />
+{L_AWARD_CREDITS_EXPLAIN}</dl>
+<br />
+<br />
+<dl>
+	<dt><label for="award_user">{L_AWARD_USER}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="award_user" name="award_user">
+	</dd>
+</dl>
+<dl>
+	<dt><label for="award_user">{L_NUMBER_CREDITS}</label><br />
+</dt>
+	<dd>
+		<input type="text" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="number_credits" name="number_credits">
+	</dd>
+</dl>
+<dl>
+	<dt><label for="award_user">{L_SEND_USER_PM}</label><br />
+</dt>
+	<dd>
+		<input type="checkbox" value="1" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="send_user_pm" name="send_user_pm">
+	</dd>
+</dl>
+
+<dl>
+	<dt><label for="award_user">{L_SEND_USER_EMAIL}</label><br />
+</dt>
+	<dd>
+		<input type="checkbox" <!-- IF not PAYPAL_FILE -->disabled="disabled"<!-- ENDIF --> size="5" id="send_user_email" name="send_user_email">
+	</dd>
+</dl>
+
+
+<br /> <input type="submit" name="submit" id="submit" value="{L_SUBMIT}" class="button1">
+</fieldset>
+</form>
 
 <form method="post" action="{U_NEW_CAT}">
 <fieldset>

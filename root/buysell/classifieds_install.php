@@ -3,7 +3,7 @@
 *
 * @author platinum_2007 (Ian Taylor) iantaylor603@gmail.com
 * @package umil
-* @version $Id classifieds_install.php 0.2.1 2009-03-22 16:56:28GMT platinum_2007 $
+* @version $Id classifieds_install.php 0.8.0 2009-03-22 16:56:28GMT platinum_2007 $
 * @copyright (c) 2009 ian taylor
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -47,6 +47,7 @@ $version_config_name = 'classifieds_version';
 * 'UNINSTALL_' . $mod_name . '_CONFIRM'
 */
 $language_file = 'mods/classified';
+	define('CLASSIFIEDS_IMAGES_TABLE',		$table_prefix . 'classifieds_images');
 
 /*
 * The array of versions and actions within each.
@@ -254,6 +255,7 @@ $versions = array(
 		array('ad_cost', '1.99', '0'),
 		array('paypal_currency', 'USD', '0'),
 		array('enable_sandbox', '0', '0'),
+		array('minimum_title_length', '0', '10'),
 
 	
 	)),
@@ -261,15 +263,25 @@ $versions = array(
 	'0.8.0'	=> array(
 	
 		'table_remove' => CLASSIFIEDS_IMAGES_TABLE,
-	),
-	'table_column_add' => array(
+			
+		'table_column_add' => array(
 			array(USERS_TABLE, 'last_classifieds_visit', array('VCHAR', '0')),
 				
-	),
-	'config_add' => array(
-		array('show_full', '0', '0'),
-	),
+		),
+		'config_add' => array(
+			array('show_full', '0', '0'),
+			array('cost_10', '0', '0'),
+			array('cost_50', '0', '0'),
+			array('cost_100', '0', '0'),
+			array('cost_200', '0', '0'),
+			array('cost_300', '0', '0'),
+			array('cost_500', '0', '0'),
 
+		),
+
+
+		
+	),
 
 );
 

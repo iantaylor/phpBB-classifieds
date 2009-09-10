@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="./modx.prosilver.en.xsl" ?>
+<!--
+	NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.
+-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.2.xsd">
+<header>
+	<meta name="generated-by" content="PP MODX Creator by tumba25" />
+		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
+	<title lang="en">Classifieds mod</title>
+	<description lang="en">Add a classifieds to your website</description>
+	<author-group>
+		<author>
+			<realname>Ian Taylor</realname>
+			<username>platinum_2007</username>
+			<homepage>http://ian-taylor.ca</homepage>
+			<email>iantaylor603@gmail.com</email>
+		</author>
+	</author-group>
+	<mod-version>0.8.0</mod-version>
+	<installation>
+		<level>easy</level>
+		<time>800</time>
+		<target-version>3.0.5</target-version>
+	</installation>
+</header>
+<action-group>
+	<copy>
+
+		<file from="root/language/en/email/credits_awarded.txt" to="language/en/email/credits_awarded.txt" />
+
+</copy>
+<open src="includes/functions.php">
+<edit>
+<find><![CDATA[	$user_lang = $user->lang['USER_LANG'];
+if (strpos($user_lang, '-x-') !== false)
+	{
+		$user_lang = substr($user_lang, 0, strpos($user_lang, '-x-'));
+	}]]></find>
+<action type="after-add"><![CDATA[if (isset($config['classifieds_enable']))
+{
+    $new_ads= 0;
+    $sql = 'SELECT COUNT(c.ad_id) AS new_ads
+       FROM '. CLASSIFIEDS_TABLE .' c, ' . USERS_TABLE . " u
+       WHERE c.ad_date >= u.last_classifieds_visit
+          AND u.user_id = ". $user->data['user_id'];
+    $result = $db->sql_query($sql);
+    $new_ads = $db->sql_fetchrow($result);
+       $new_ads = $new_ads['new_ads'];
+       $db->sql_freeresult($result);
+       $template->assign_vars(array(
+          'NEW_ADS' 		=> $new_ads,
+		  'U_CLASSIFIEDS'   => append_sid("{$phpbb_root_path}buysell"),
+          'L_TOTAL_ADS_COUNT' 	=> ($new_ads == 1) ? $user->lang['NEW_AD_ONE'] : sprintf($user->lang['NEW_ADS'], $new_ads),
+
+       ));
+
+}
+]]></action>
+</edit>
+
+<edit>
+
+<find><![CDATA['U_CLASSIFIEDS'   				=> append_sid("{$phpbb_root_path}buysell"),]]></find>
+<action type="replace-with"><![CDATA[]]></action>
+</edit>
+</open>
+<open src="language/en/common.php">
+<edit>
+<find><![CDATA[	'TOTAL_ADS'			=> 'Total ads',
+	'CLASSIFIEDS'		=> 'Classifieds',]]></find>
+<action type="after-add"><![CDATA[	'NEW_ADS'			=> '(<strong>%d</strong> new ads)',
+	'NEW_AD_ONE'			=> '(<strong>1</strong> new ad)',]]></action>
+</edit>
+</open>
+
+
+<open src="styles/prosilver/template/overall_header.html">
+<edit>
+<find><![CDATA[			<li><img src="{T_THEME_PATH}/images/cart.png" /><a href="{U_CLASSIFIEDS}" title="{L_CLASSIFIEDS}">{L_CLASSIFIEDS}</a></li>]]></find>
+<action type="replace-with"><![CDATA[			<li><img src="{T_THEME_PATH}/images/cart.png" /><a href="{U_CLASSIFIEDS}" title="{L_CLASSIFIEDS}">{L_CLASSIFIEDS} {L_TOTAL_ADS_COUNT}</a></li>
+]]></action>
+</edit>
+</open>
+
+<diy-instructions lang="en">
+After doing the edits browse to http://www.yoursite.com/buysell/classifieds_install.php 
+refresh your templates and you should be updated fine!
+ </diy-instructions>
+</action-group>
+</mod>
