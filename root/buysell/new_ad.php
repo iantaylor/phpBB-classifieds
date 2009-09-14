@@ -517,15 +517,22 @@ switch($edit)
 				$uid 			= $bitfield = $options = ''; // will be modified by generate_text_for_storage
 				$allow_bbcode 	= $allow_urls = $allow_smilies = true;
 
+				$sql = 'SELECT * 
+					FROM ' . CLASSIFIEDS_CATEGORY_TABLE . ' 
+					WHERE id =' . $cat;
+				
+				$result	 = $db->sql_query($sql);
+				$row = $db->sql_fetchrow($result);
+		
+				// check for errors	
 				if (!$ad_title)
 				{
    	 				$error[] = $user->lang['NO_TITLE'];
 				}
-				
 				// 1=yes
-				if ($row['parent_id'] == 1)
+				if ($row['parent'])
 				{
-					$error[]	= 'YOU CANNOT SELECT A PARENT';
+					$error[]	= $user->lang['BAD_CATEGORY'];
 				}
 				
 				if (strlen($ad_title) < $config['minimum_title_length'])
